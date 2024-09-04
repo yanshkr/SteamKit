@@ -5,6 +5,7 @@
 
 
 using System;
+using System.Net;
 using SteamKit2.Discovery;
 
 namespace SteamKit2
@@ -17,6 +18,7 @@ namespace SteamKit2
         public EClientPersonaStateFlag DefaultPersonaStateFlags;
         public HttpClientFactory HttpClientFactory;
         public IMachineInfoProvider MachineInfoProvider;
+        public IWebProxy? Proxy;
         public ProtocolTypes ProtocolTypes;
         public IServerListProvider ServerListProvider;
         public EUniverse Universe;

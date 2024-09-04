@@ -210,7 +210,7 @@ namespace SteamKit2.Internal
                         return;
                     }
 
-                    var newConnection = CreateConnection( record.ProtocolTypes & Configuration.ProtocolTypes );
+                    var newConnection = CreateConnection( record.ProtocolTypes & Configuration.ProtocolTypes, Configuration.Proxy );
 
                     var connectionRelease = Interlocked.Exchange( ref connection, newConnection );
                     DebugLog.Assert( connectionRelease == null, nameof( CMClient ), "Connection was set during a connect, did you call CMClient.Connect() on multiple threads?" );
@@ -406,7 +406,7 @@ namespace SteamKit2.Internal
         {
         }
 
-        IConnection CreateConnection( ProtocolTypes protocol )
+        IConnection CreateConnection( ProtocolTypes protocol, IWebProxy? proxy)
         {
             if ( protocol.HasFlagsFast( ProtocolTypes.WebSocket ) )
             {
@@ -414,10 +414,16 @@ namespace SteamKit2.Internal
             }
             else if ( protocol.HasFlagsFast( ProtocolTypes.Tcp ) )
             {
+                if (proxy is not null)
+                    throw new InvalidOperationException("Proxy is not supported for TCP connections");
+
                 return new EnvelopeEncryptedConnection( new TcpConnection( this ), Universe, this, DebugNetworkListener );
             }
             else if ( protocol.HasFlagsFast( ProtocolTypes.Udp ) )
             {
+                if ( proxy is not null )
+                    throw new InvalidOperationException( "Proxy is not supported for UDP connections" );
+
                 return new EnvelopeEncryptedConnection( new UdpConnection( this ), Universe, this, DebugNetworkListener );
             }
 

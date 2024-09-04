@@ -81,12 +81,30 @@ namespace SteamKit2
         }
     }
 
+    sealed class RandomMachineInfoProvider : IMachineInfoProvider
+    {
+        public byte[] GetMachineGuid()
+        {
+            return Encoding.UTF8.GetBytes( Guid.NewGuid().ToString() );
+        }
+
+        public byte[] GetMacAddress()
+        {
+            return Encoding.UTF8.GetBytes( SpoofUtils.GetRandomMacAddress() );
+        }
+
+        public byte[] GetDiskId()
+        {
+            return Encoding.UTF8.GetBytes( SpoofUtils.RandomDiskSerialNumber() );
+        }
+    }
+
     [SupportedOSPlatform( "windows5.1.2600" )]
     sealed class WindowsMachineInfoProvider : IMachineInfoProvider
     {
         public byte[]? GetMachineGuid()
         {
-            using var baseKey = RegistryKey.OpenBaseKey( Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64 );
+            using var baseKey = RegistryKey.OpenBaseKey( RegistryHive.LocalMachine, RegistryView.Registry64 );
             using var localKey = baseKey.OpenSubKey( @"SOFTWARE\Microsoft\Cryptography" );
 
             if ( localKey == null )

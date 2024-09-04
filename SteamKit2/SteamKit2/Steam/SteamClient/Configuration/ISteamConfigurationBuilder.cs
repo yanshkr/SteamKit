@@ -5,6 +5,7 @@
 
 
 using System;
+using System.Net;
 using SteamKit2.Discovery;
 
 namespace SteamKit2
@@ -57,6 +58,13 @@ namespace SteamKit2
         /// <param name="machineInfoProvider">A custom machine information provider.</param>
         /// <returns>A builder with modified configuration.</returns>
         ISteamConfigurationBuilder WithMachineInfoProvider(IMachineInfoProvider machineInfoProvider);
+
+        /// <summary>
+        /// Configures this <see cref="SteamConfiguration" /> with a custom proxy provider.
+        /// </summary>
+        /// <param name="proxy">The proxy to use when attempting to connect to Steam.</param>
+        /// <returns>A builder with modified configuration.</returns>
+        ISteamConfigurationBuilder WithProxy(IWebProxy proxy);
 
         /// <summary>
         /// Configures how this <see cref="SteamConfiguration" /> will be used to connect to Steam.

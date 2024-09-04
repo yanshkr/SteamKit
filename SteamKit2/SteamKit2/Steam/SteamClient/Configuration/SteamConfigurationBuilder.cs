@@ -5,6 +5,7 @@
 
 
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using SteamKit2.Discovery;
@@ -83,6 +84,12 @@ namespace SteamKit2
         public ISteamConfigurationBuilder WithMachineInfoProvider(IMachineInfoProvider machineInfoProvider)
         {
             state.MachineInfoProvider = machineInfoProvider;
+            return this;
+        }
+
+        public ISteamConfigurationBuilder WithProxy(IWebProxy proxy)
+        {
+            state.Proxy = proxy;
             return this;
         }
 

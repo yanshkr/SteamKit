@@ -5,6 +5,7 @@
 
 
 using System;
+using System.Net;
 using System.Net.Http;
 using SteamKit2.Discovery;
 
@@ -82,6 +83,11 @@ namespace SteamKit2
         /// when running SteamKit2 in new and novel environments that do not have an appropriate default implementation.
         /// </summary>
         public IMachineInfoProvider MachineInfoProvider => state.MachineInfoProvider;
+
+        /// <summary>
+        /// The proxy to use when connecting to Steam.
+        /// </summary>
+        public IWebProxy? Proxy => state.Proxy;
 
         /// <summary>
         /// The supported protocol types to use when attempting to connect to Steam.
