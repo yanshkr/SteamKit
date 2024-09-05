@@ -121,7 +121,7 @@ namespace Tests
         {
             SteamID sidMultiseat = new SteamID();
             sidMultiseat.SetFromSteam3String( "[M:1:123(456)]" );
-            Assert.Equal( 123u, sidMultiseat.AccountID);
+            Assert.Equal( 123u, sidMultiseat.AccountID );
             Assert.Equal( EUniverse.Public, sidMultiseat.AccountUniverse );
             Assert.Equal( 456u, sidMultiseat.AccountInstance );
             Assert.Equal( EAccountType.Multiseat, sidMultiseat.AccountType );
@@ -184,7 +184,7 @@ namespace Tests
             bool setFromNullString = sid.SetFromSteam3String( null );
             Assert.False( setFromNullString );
 
-            bool setFromEmptyString = sid.SetFromSteam3String("");
+            bool setFromEmptyString = sid.SetFromSteam3String( "" );
             Assert.False( setFromEmptyString );
 
             bool setFromInvalidString = sid.SetFromSteam3String( "NOT A STEAMID!" );
@@ -194,7 +194,7 @@ namespace Tests
             Assert.False( setFromInvalidAccountId );
 
             bool setFromSteam2String = sid.SetFromSteam3String( "STEAM_0:1:4491990" );
-            Assert.False(setFromSteam2String);
+            Assert.False( setFromSteam2String );
 
             bool mixingBracketsAndColons1 = sid.SetFromSteam3String( "[A:1:2:345)]" );
             Assert.False( mixingBracketsAndColons1 );
@@ -301,20 +301,20 @@ namespace Tests
             sid.SetFromSteam3String( "[c:1:1234]" );
             Assert.Equal( EUniverse.Public, sid.AccountUniverse );
             Assert.Equal( EAccountType.Chat, sid.AccountType );
-            Assert.Equal( (uint)SteamID.ChatInstanceFlags.Clan, sid.AccountInstance );
-            Assert.Equal( 1234u, sid.AccountID);
+            Assert.Equal( ( uint )SteamID.ChatInstanceFlags.Clan, sid.AccountInstance );
+            Assert.Equal( 1234u, sid.AccountID );
 
             sid.SetFromSteam3String( "[L:1:1234]" );
             Assert.Equal( EUniverse.Public, sid.AccountUniverse );
             Assert.Equal( EAccountType.Chat, sid.AccountType );
-            Assert.Equal( ( uint ) SteamID.ChatInstanceFlags.Lobby, sid.AccountInstance );
+            Assert.Equal( ( uint )SteamID.ChatInstanceFlags.Lobby, sid.AccountInstance );
             Assert.Equal( 1234u, sid.AccountID );
         }
 
         [Fact]
         public void RendersOutOfRangeAccountTypeAsLowercaseI()
         {
-            SteamID sid = new SteamID( 123, EUniverse.Beta, (EAccountType)(-1) );
+            SteamID sid = new SteamID( 123, EUniverse.Beta, ( EAccountType )( -1 ) );
             Assert.Equal( "[i:2:123]", sid.Render() );
         }
 
@@ -338,15 +338,15 @@ namespace Tests
         }
 
         [Theory]
-        [InlineData(EAccountType.AnonGameServer)]
-        [InlineData(EAccountType.AnonUser)]
-        [InlineData(EAccountType.Chat)]
-        [InlineData(EAccountType.ConsoleUser)]
-        [InlineData(EAccountType.ContentServer)]
-        [InlineData(EAccountType.GameServer)]
-        [InlineData(EAccountType.Individual)]
-        [InlineData(EAccountType.Multiseat)]
-        [InlineData(EAccountType.Pending)]
+        [InlineData( EAccountType.AnonGameServer )]
+        [InlineData( EAccountType.AnonUser )]
+        [InlineData( EAccountType.Chat )]
+        [InlineData( EAccountType.ConsoleUser )]
+        [InlineData( EAccountType.ContentServer )]
+        [InlineData( EAccountType.GameServer )]
+        [InlineData( EAccountType.Individual )]
+        [InlineData( EAccountType.Multiseat )]
+        [InlineData( EAccountType.Pending )]
         public void ToChatIDOnlySupportsClans( EAccountType type )
         {
             var id = new SteamID( 1, EUniverse.Public, type );
@@ -356,7 +356,7 @@ namespace Tests
         [Fact]
         public void TryGetClanIDConvertsWellKnownID()
         {
-            var clanID = new SteamID( 4, (uint)SteamID.ChatInstanceFlags.Clan, EUniverse.Public, EAccountType.Chat );
+            var clanID = new SteamID( 4, ( uint )SteamID.ChatInstanceFlags.Clan, EUniverse.Public, EAccountType.Chat );
             Assert.True( clanID.TryGetClanID( out var groupID ) );
             Assert.Equal( 103582791429521412UL, groupID.ConvertToUInt64() );
         }
@@ -364,7 +364,7 @@ namespace Tests
         [Fact]
         public void TryGetClanIDDoesNotModifySelf()
         {
-            var clanID = new SteamID(4, (uint)SteamID.ChatInstanceFlags.Clan, EUniverse.Public, EAccountType.Chat );
+            var clanID = new SteamID( 4, ( uint )SteamID.ChatInstanceFlags.Clan, EUniverse.Public, EAccountType.Chat );
             Assert.True( clanID.TryGetClanID( out _ ) );
 
             Assert.Equal( EUniverse.Public, clanID.AccountUniverse );
@@ -382,14 +382,14 @@ namespace Tests
         }
 
         [Theory]
-        [InlineData(EAccountType.AnonGameServer)]
-        [InlineData(EAccountType.AnonUser)]
-        [InlineData(EAccountType.ConsoleUser)]
-        [InlineData(EAccountType.ContentServer)]
-        [InlineData(EAccountType.GameServer)]
-        [InlineData(EAccountType.Individual)]
-        [InlineData(EAccountType.Multiseat)]
-        [InlineData(EAccountType.Pending)]
+        [InlineData( EAccountType.AnonGameServer )]
+        [InlineData( EAccountType.AnonUser )]
+        [InlineData( EAccountType.ConsoleUser )]
+        [InlineData( EAccountType.ContentServer )]
+        [InlineData( EAccountType.GameServer )]
+        [InlineData( EAccountType.Individual )]
+        [InlineData( EAccountType.Multiseat )]
+        [InlineData( EAccountType.Pending )]
         public void TryGetClanIDOnlySupportsClanChatRooms( EAccountType type )
         {
             var id = new SteamID( 4, ( uint )SteamID.ChatInstanceFlags.Clan, EUniverse.Public, type );
@@ -398,16 +398,16 @@ namespace Tests
         }
 
         [Theory]
-        [InlineData(EAccountType.Individual)]
-        [InlineData(EAccountType.Multiseat)]
-        [InlineData(EAccountType.GameServer)]
-        [InlineData(EAccountType.AnonGameServer)]
-        [InlineData(EAccountType.Pending)]
-        [InlineData(EAccountType.ContentServer)]
-        [InlineData(EAccountType.Clan)]
-        [InlineData(EAccountType.Chat)]
-        [InlineData(EAccountType.ConsoleUser)]
-        [InlineData(EAccountType.AnonUser)]
+        [InlineData( EAccountType.Individual )]
+        [InlineData( EAccountType.Multiseat )]
+        [InlineData( EAccountType.GameServer )]
+        [InlineData( EAccountType.AnonGameServer )]
+        [InlineData( EAccountType.Pending )]
+        [InlineData( EAccountType.ContentServer )]
+        [InlineData( EAccountType.Clan )]
+        [InlineData( EAccountType.Chat )]
+        [InlineData( EAccountType.ConsoleUser )]
+        [InlineData( EAccountType.AnonUser )]
         public void KnownAccountTypesAreValid( EAccountType type )
         {
             SteamID sid = 76561198074261126;
@@ -417,10 +417,10 @@ namespace Tests
         }
 
         [Theory]
-        [InlineData(EAccountType.Invalid)]
-        [InlineData((EAccountType)11)]
-        [InlineData((EAccountType)12)]
-        [InlineData((EAccountType)13)]
+        [InlineData( EAccountType.Invalid )]
+        [InlineData( ( EAccountType )11 )]
+        [InlineData( ( EAccountType )12 )]
+        [InlineData( ( EAccountType )13 )]
         public void UnknownAccountTypesAreInvalid( EAccountType type )
         {
             SteamID sid = 76561198074261126;
@@ -429,10 +429,10 @@ namespace Tests
         }
 
         [Theory]
-        [InlineData(EUniverse.Public)]
-        [InlineData(EUniverse.Beta)]
-        [InlineData(EUniverse.Internal)]
-        [InlineData(EUniverse.Dev)]
+        [InlineData( EUniverse.Public )]
+        [InlineData( EUniverse.Beta )]
+        [InlineData( EUniverse.Internal )]
+        [InlineData( EUniverse.Dev )]
         public void KnownAccountUniversesAreValid( EUniverse universe )
         {
             SteamID sid = 76561198074261126;
@@ -441,10 +441,10 @@ namespace Tests
         }
 
         [Theory]
-        [InlineData(EUniverse.Invalid)]
-        [InlineData((EUniverse)5)]
-        [InlineData((EUniverse)6)]
-        [InlineData((EUniverse)7)]
+        [InlineData( EUniverse.Invalid )]
+        [InlineData( ( EUniverse )5 )]
+        [InlineData( ( EUniverse )6 )]
+        [InlineData( ( EUniverse )7 )]
         public void UnknownAccountUniversesAreInvalid( EUniverse universe )
         {
             SteamID sid = 76561198074261126;

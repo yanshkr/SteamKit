@@ -27,10 +27,10 @@ namespace SteamKit2
         /// <summary>
         /// Do not use directly - create a SteamConfiguration object by using a builder or helper method.
         /// </summary>
-        internal SteamConfiguration(SteamConfigurationState state)
+        internal SteamConfiguration( SteamConfigurationState state )
         {
             this.state = state;
-            ServerList = new SmartCMServerList(this);
+            ServerList = new SmartCMServerList( this );
         }
 
         /// <summary>
@@ -38,17 +38,17 @@ namespace SteamKit2
         /// </summary>
         /// <param name="configurator">A method which is used to configure the configuration.</param>
         /// <returns>A configuration object.</returns>
-        public static SteamConfiguration Create(Action<ISteamConfigurationBuilder> configurator)
+        public static SteamConfiguration Create( Action<ISteamConfigurationBuilder> configurator )
         {
             ArgumentNullException.ThrowIfNull( configurator );
 
             var builder = new SteamConfigurationBuilder();
-            configurator(builder);
+            configurator( builder );
             return builder.Build();
         }
 
         internal static SteamConfiguration CreateDefault()
-            => new(SteamConfigurationBuilder.CreateDefaultState());
+            => new( SteamConfigurationBuilder.CreateDefaultState() );
 
         readonly SteamConfigurationState state;
 

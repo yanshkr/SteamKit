@@ -66,7 +66,7 @@ namespace SteamKit2
         public void SetPersonaName( string name )
         {
             // cache the local name right away, so that early calls to SetPersonaState don't reset the set name
-            cache.LocalUser.Name = name ?? throw new ArgumentNullException( nameof(name) );
+            cache.LocalUser.Name = name ?? throw new ArgumentNullException( nameof( name ) );
 
             var stateMsg = new ClientMsgProtobuf<CMsgClientChangeStatus>( EMsg.ClientChangeStatus );
 
@@ -421,7 +421,7 @@ namespace SteamKit2
             if ( chatId.IsClanAccount )
             {
                 // this steamid is incorrect, so we'll fix it up
-                chatId.AccountInstance = (uint)SteamID.ChatInstanceFlags.Clan;
+                chatId.AccountInstance = ( uint )SteamID.ChatInstanceFlags.Clan;
                 chatId.AccountType = EAccountType.Chat;
             }
 
@@ -619,7 +619,7 @@ namespace SteamKit2
 
             request.Body.steamid = steamId;
 
-            this.Client.Send(request);
+            this.Client.Send( request );
         }
 
         /// <summary>
@@ -630,7 +630,7 @@ namespace SteamKit2
         public void RequestOfflineMessages()
         {
             var request = new ClientMsgProtobuf<CMsgClientChatGetFriendMessageHistoryForOfflineMessages>( EMsg.ClientChatGetFriendMessageHistoryForOfflineMessages );
-            
+
             this.Client.Send( request );
         }
 
@@ -823,7 +823,7 @@ namespace SteamKit2
                         cacheClan.Name = friend.player_name;
                     }
 
-                    if ( (flags & EClientPersonaStateFlag.Presence) == EClientPersonaStateFlag.Presence )
+                    if ( ( flags & EClientPersonaStateFlag.Presence ) == EClientPersonaStateFlag.Presence )
                     {
                         cacheClan.AvatarHash = friend.avatar_hash;
                     }

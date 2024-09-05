@@ -24,31 +24,31 @@ namespace SteamKit2.Internal
         void Register( CallbackBase callback );
         void Unregister( CallbackBase callback );
     }
-        
+
     sealed class Callback<TCall> : Internal.CallbackBase, IDisposable
         where TCall : class, ICallbackMsg
     {
         ICallbackMgrInternals? mgr;
-            
+
         public JobID JobID { get; set; }
-            
+
         public Action<TCall> OnRun { get; set; }
 
         internal override Type CallbackType { get { return typeof( TCall ); } }
-            
-        public Callback(Action<TCall> func, ICallbackMgrInternals? mgr = null)
-            : this ( func, mgr, JobID.Invalid )
+
+        public Callback( Action<TCall> func, ICallbackMgrInternals? mgr = null )
+            : this( func, mgr, JobID.Invalid )
         {
         }
 
-        public Callback(Action<TCall> func, ICallbackMgrInternals? mgr, JobID jobID)
+        public Callback( Action<TCall> func, ICallbackMgrInternals? mgr, JobID jobID )
         {
             this.JobID = jobID;
             this.OnRun = func;
 
-            AttachTo(mgr);
+            AttachTo( mgr );
         }
-            
+
         void AttachTo( ICallbackMgrInternals? mgr )
         {
             if ( mgr == null )
@@ -57,7 +57,7 @@ namespace SteamKit2.Internal
             this.mgr = mgr;
             mgr.Register( this );
         }
-            
+
         ~Callback()
         {
             Dispose();
@@ -74,9 +74,9 @@ namespace SteamKit2.Internal
         internal override void Run( object callback )
         {
             var cb = callback as TCall;
-            if (cb != null && (cb.JobID == JobID || JobID == JobID.Invalid) && OnRun != null)
+            if ( cb != null && ( cb.JobID == JobID || JobID == JobID.Invalid ) && OnRun != null )
             {
-                OnRun(cb);
+                OnRun( cb );
             }
         }
     }

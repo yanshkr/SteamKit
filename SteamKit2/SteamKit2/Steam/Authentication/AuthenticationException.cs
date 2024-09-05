@@ -18,12 +18,12 @@ namespace SteamKit2.Authentication
         }
 
         /// <inheritdoc/>
-        public AuthenticationException(string message) : base(message)
+        public AuthenticationException( string message ) : base( message )
         {
         }
 
         /// <inheritdoc/>
-        public AuthenticationException(string message, Exception innerException) : base(message, innerException)
+        public AuthenticationException( string message, Exception innerException ) : base( message, innerException )
         {
         }
 
@@ -32,8 +32,8 @@ namespace SteamKit2.Authentication
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
         /// <param name="result">The result code that describes the error.</param>
-        public AuthenticationException(string message, EResult result)
-            : base($"{message} with result {result}.")
+        public AuthenticationException( string message, EResult result )
+            : base( $"{message} with result {result}." )
         {
             Result = result;
         }

@@ -54,7 +54,7 @@ namespace Tests
             Assert.Equal( "Saxton Hell", chatName );
 
             byte nextByte = msg.ReadByte();
-            char mByte = (char)msg.ReadByte();
+            char mByte = ( char )msg.ReadByte();
 
             // next byte should be a null
             Assert.Equal( 0, nextByte );

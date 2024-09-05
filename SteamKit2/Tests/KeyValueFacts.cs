@@ -26,8 +26,8 @@ namespace Tests
 
             kv.Children.Add( new KeyValue( "exists", "value" ) );
 
-            Assert.Equal( "value", kv["exists"].Value );
-            Assert.Equal( KeyValue.Invalid, kv["thiskeydoesntexist"] );
+            Assert.Equal( "value", kv[ "exists" ].Value );
+            Assert.Equal( KeyValue.Invalid, kv[ "thiskeydoesntexist" ] );
         }
 
         [Fact]
@@ -35,15 +35,15 @@ namespace Tests
         {
             KeyValue kv = new KeyValue();
 
-            kv["key"] = new KeyValue();
+            kv[ "key" ] = new KeyValue();
 
             Assert.Single( kv.Children );
 
-            kv["key"] = new KeyValue();
+            kv[ "key" ] = new KeyValue();
 
             Assert.Single( kv.Children );
 
-            kv["key2"] = new KeyValue();
+            kv[ "key2" ] = new KeyValue();
 
             Assert.Equal( 2, kv.Children.Count );
         }
@@ -57,10 +57,10 @@ namespace Tests
 
             Assert.Null( subkey.Name );
 
-            kv["subkey"] = subkey;
+            kv[ "subkey" ] = subkey;
 
             Assert.Equal( "subkey", subkey.Name );
-            Assert.Equal( "subkey", kv["subkey"].Name );
+            Assert.Equal( "subkey", kv[ "subkey" ].Name );
         }
 
         [Fact]
@@ -205,7 +205,7 @@ namespace Tests
             kv.Children.Add( new KeyValue( "num_params", "0" ) );
             kv.Children.Add( new KeyValue( "watching_server", "[A:1:2108935169:5412]" ) );
             kv.Children.Add( new KeyValue( "watching_from_server", "[A:1:864468994:5412]" ) );
-            
+
             string tempFileName = null;
             try
             {
@@ -239,7 +239,7 @@ namespace Tests
             kv.Children.Add( new KeyValue( "num_params", "0" ) );
             kv.Children.Add( new KeyValue( "watching_server", "[A:1:2108935169:5412]" ) );
             kv.Children.Add( new KeyValue( "watching_from_server", "[A:1:864468994:5412]" ) );
-            
+
             byte[] binaryValue;
             using ( var ms = new MemoryStream() )
             {
@@ -277,7 +277,7 @@ namespace Tests
             {
                 var originalChild = kv.Children[ i ];
                 var deserializedChild = deserializedKv.Children[ i ];
-                
+
                 Assert.Equal( originalChild.Name, deserializedChild.Name );
                 Assert.Equal( originalChild.Value, deserializedChild.Value );
             }
@@ -298,14 +298,14 @@ namespace Tests
             Assert.True( success, "Should have read test object." );
             Assert.Equal( "TestObject", kv.Name );
             Assert.Single( kv.Children );
-            Assert.Equal( "key", kv.Children[0].Name );
-            Assert.Equal( "value", kv.Children[0].Value );
+            Assert.Equal( "key", kv.Children[ 0 ].Name );
+            Assert.Equal( "value", kv.Children[ 0 ].Value );
         }
 
         [Fact]
         public void KeyValuesReadsBinaryWithLeftoverData()
         {
-            var binary = Utils.DecodeHexString( TestObjectHex + Guid.NewGuid().ToString().Replace("-", "", StringComparison.Ordinal) );
+            var binary = Utils.DecodeHexString( TestObjectHex + Guid.NewGuid().ToString().Replace( "-", "", StringComparison.Ordinal ) );
             var kv = new KeyValue();
             bool success;
             using ( var ms = new MemoryStream( binary ) )
@@ -318,8 +318,8 @@ namespace Tests
             Assert.True( success, "Should have read test object." );
             Assert.Equal( "TestObject", kv.Name );
             Assert.Single( kv.Children );
-            Assert.Equal( "key", kv.Children[0].Name );
-            Assert.Equal( "value", kv.Children[0].Value );
+            Assert.Equal( "key", kv.Children[ 0 ].Name );
+            Assert.Equal( "value", kv.Children[ 0 ].Value );
         }
 
         [Fact]
@@ -354,7 +354,7 @@ namespace Tests
             }
 
             Assert.True( success );
-            
+
             Assert.Equal( "TestObject", kv.Name );
             Assert.Equal( 2, kv.Children.Count );
             Assert.Equal( "key1", kv.Children[ 0 ].Name );
@@ -402,7 +402,7 @@ namespace Tests
         public void KeyValuesSavesTextToStream()
         {
             var expected = "\"RootNode\"\n{\n\t\"key1\"\t\t\"value1\"\n\t\"key2\"\n\t{\n\t\t\"ChildKey\"\t\t\"ChildValue\"\n\t}\n}\n";
-            
+
             var kv = new KeyValue( "RootNode" )
             {
                 Children =
@@ -445,7 +445,7 @@ namespace Tests
             Assert.Equal( "key1", kv.Children[ 0 ].Name );
             Assert.Equal( "value1", kv.Children[ 0 ].Value );
             Assert.Equal( "key2", kv.Children[ 1 ].Name );
-            Assert.Single( kv.Children[ 1 ].Children);
+            Assert.Single( kv.Children[ 1 ].Children );
             Assert.Equal( "ChildKey", kv.Children[ 1 ].Children[ 0 ].Name );
             Assert.Equal( "ChildValue", kv.Children[ 1 ].Children[ 0 ].Value );
         }
@@ -474,7 +474,7 @@ namespace Tests
             Assert.Equal( "key1", kv.Children[ 0 ].Name );
             Assert.Equal( "value1", kv.Children[ 0 ].Value );
             Assert.Equal( "key2", kv.Children[ 1 ].Name );
-            Assert.Single( kv.Children[ 1 ].Children  );
+            Assert.Single( kv.Children[ 1 ].Children );
             Assert.Equal( "ChildKey", kv.Children[ 1 ].Children[ 0 ].Name );
             Assert.Equal( "ChildValue", kv.Children[ 1 ].Children[ 0 ].Value );
         }
@@ -531,7 +531,7 @@ namespace Tests
             Assert.Equal( expectedValue, kv.AsUnsignedByte() );
 
             kv.Value = "256";
-            Assert.Equal( expectedValue, kv.AsUnsignedByte(expectedValue) );
+            Assert.Equal( expectedValue, kv.AsUnsignedByte( expectedValue ) );
         }
 
         [Fact]
@@ -543,7 +543,7 @@ namespace Tests
             Assert.Equal( expectedValue, kv.AsUnsignedShort() );
 
             kv.Value = "123456";
-            Assert.Equal( expectedValue, kv.AsUnsignedShort(expectedValue) );
+            Assert.Equal( expectedValue, kv.AsUnsignedShort( expectedValue ) );
         }
 
         [Fact]
@@ -580,7 +580,7 @@ namespace Tests
             var kv = new KeyValue( "key" );
             kv.Children.Add( new KeyValue( "emptyObj" ) );
             kv.Children.Add( new KeyValue( "emptyString", string.Empty ) );
-            
+
             var deserializedKv = new KeyValue();
             byte[] binaryValue;
             using ( var ms = new MemoryStream() )
@@ -594,9 +594,9 @@ namespace Tests
             var hexValue = BitConverter.ToString( binaryValue ).Replace( "-", "", StringComparison.Ordinal );
 
             Assert.Equal( expectedHexString, hexValue );
-            Assert.Null( deserializedKv["emptyObj"].Value );
-            Assert.Empty( deserializedKv["emptyObj"].Children );
-            Assert.Equal( string.Empty, deserializedKv["emptyString"].Value );
+            Assert.Null( deserializedKv[ "emptyObj" ].Value );
+            Assert.Empty( deserializedKv[ "emptyObj" ].Children );
+            Assert.Equal( string.Empty, deserializedKv[ "emptyString" ].Value );
         }
 
         [Fact]
@@ -605,13 +605,13 @@ namespace Tests
             var hex = "00546573744F626A656374000A6B65790001020304050607080808";
             var binary = Utils.DecodeHexString( hex );
             var kv = new KeyValue();
-            using (var ms = new MemoryStream(binary))
+            using ( var ms = new MemoryStream( binary ) )
             {
-                var read = kv.TryReadAsBinary(ms);
-                Assert.True(read);
+                var read = kv.TryReadAsBinary( ms );
+                Assert.True( read );
             }
 
-            Assert.Equal( 0x0807060504030201, kv["key"].AsLong() );
+            Assert.Equal( 0x0807060504030201, kv[ "key" ].AsLong() );
         }
 
         static string SaveToText( KeyValue kv )

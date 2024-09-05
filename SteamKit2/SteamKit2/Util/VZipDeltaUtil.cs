@@ -29,7 +29,8 @@ namespace SteamKit2
             }
 
             // This is also the CRC of the chunk
-            /* uint secondaryCRC = */ reader.ReadUInt32();
+            /* uint secondaryCRC = */
+            reader.ReadUInt32();
 
             byte[] properties = reader.ReadBytes( 5 );
             byte[] deltaBuffer = reader.ReadBytes( ( int )ms.Length - HeaderLength - FooterLength - 5 );

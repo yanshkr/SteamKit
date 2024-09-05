@@ -14,14 +14,14 @@ namespace SteamKit2.Discovery
         /// </summary>
         /// <returns>Empty server list</returns>
         public Task<IEnumerable<ServerRecord>> FetchServerListAsync()
-            => Task.FromResult(Enumerable.Empty<ServerRecord>());
+            => Task.FromResult( Enumerable.Empty<ServerRecord>() );
 
         /// <summary>
         /// No-op implementation that does not persist server list
         /// </summary>
         /// <param name="endpoints">Server list</param>
         /// <returns>Completed task</returns>
-        public Task UpdateServerListAsync(IEnumerable<ServerRecord> endpoints)
+        public Task UpdateServerListAsync( IEnumerable<ServerRecord> endpoints )
             => Task.CompletedTask;
     }
 }

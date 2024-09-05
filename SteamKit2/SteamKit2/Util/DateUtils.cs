@@ -19,18 +19,18 @@ namespace SteamKit2
         /// </summary>
         /// <param name="unixTime">A unix timestamp expressed as seconds since the unix epoch</param>
         /// <returns>DateTime representation</returns>
-        public static DateTime DateTimeFromUnixTime(ulong unixTime)
+        public static DateTime DateTimeFromUnixTime( ulong unixTime )
         {
-            return DateTimeOffset.FromUnixTimeSeconds( (long)unixTime ).UtcDateTime;
+            return DateTimeOffset.FromUnixTimeSeconds( ( long )unixTime ).UtcDateTime;
         }
         /// <summary>
         /// Converts a given DateTime into a unix timestamp representing seconds since the unix epoch.
         /// </summary>
         /// <param name="time">DateTime to be expressed</param>
         /// <returns>64-bit wide representation</returns>
-        public static ulong DateTimeToUnixTime(DateTime time)
+        public static ulong DateTimeToUnixTime( DateTime time )
         {
-            return (ulong)new DateTimeOffset( time ).ToUnixTimeSeconds();
+            return ( ulong )new DateTimeOffset( time ).ToUnixTimeSeconds();
         }
     }
 }

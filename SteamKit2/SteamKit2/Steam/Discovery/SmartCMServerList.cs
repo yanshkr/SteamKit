@@ -50,7 +50,7 @@ namespace SteamKit2.Discovery
         /// <exception cref="ArgumentNullException">The configuration object is null.</exception>
         public SmartCMServerList( SteamConfiguration configuration )
         {
-            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            this.configuration = configuration ?? throw new ArgumentNullException( nameof( configuration ) );
 
             servers = [];
             listLock = new object();
@@ -115,7 +115,7 @@ namespace SteamKit2.Discovery
                 DebugWrite( "Could not query SteamDirectory, falling back to cm0" );
                 var cm0 = await Dns.GetHostAddressesAsync( "cm0.steampowered.com" ).ConfigureAwait( false );
 
-                endpointList = cm0.Select( ipaddr => ServerRecord.CreateSocketServer( new IPEndPoint(ipaddr, 27017) ) ).ToList();
+                endpointList = cm0.Select( ipaddr => ServerRecord.CreateSocketServer( new IPEndPoint( ipaddr, 27017 ) ) ).ToList();
             }
 
             DebugWrite( "Resolved {0} servers", endpointList.Count );
@@ -235,19 +235,19 @@ namespace SteamKit2.Discovery
             switch ( quality )
             {
                 case ServerQuality.Good:
-                {
-                    if ( serverInfo.LastBadConnectionTimeUtc.HasValue )
                     {
-                        serverInfo.LastBadConnectionTimeUtc = null;
+                        if ( serverInfo.LastBadConnectionTimeUtc.HasValue )
+                        {
+                            serverInfo.LastBadConnectionTimeUtc = null;
+                        }
+                        break;
                     }
-                    break;
-                }
 
                 case ServerQuality.Bad:
-                {
-                    serverInfo.LastBadConnectionTimeUtc = DateTime.UtcNow;
-                    break;
-                }
+                    {
+                        serverInfo.LastBadConnectionTimeUtc = DateTime.UtcNow;
+                        break;
+                    }
 
                 default:
                     throw new ArgumentOutOfRangeException( nameof( quality ) );
@@ -328,7 +328,7 @@ namespace SteamKit2.Discovery
 
             lock ( listLock )
             {
-                endPoints = servers.Select(s => s.Record).Distinct().ToArray();
+                endPoints = servers.Select( s => s.Record ).Distinct().ToArray();
             }
 
             return endPoints;
@@ -336,7 +336,7 @@ namespace SteamKit2.Discovery
 
         static void DebugWrite( string msg, params object[] args )
         {
-            DebugLog.WriteLine( "ServerList", msg, args);
+            DebugLog.WriteLine( "ServerList", msg, args );
         }
     }
 }

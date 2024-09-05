@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 
 namespace SteamKit2
 {
@@ -13,8 +12,8 @@ namespace SteamKit2
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
         /// <param name="response">HTTP response message including the status code and data.</param>
-        public WebAPIRequestException(string message, HttpResponseMessage response)
-            : base(message, response)
+        public WebAPIRequestException( string message, HttpResponseMessage response )
+            : base( message, response )
         {
         }
 

@@ -15,7 +15,7 @@ namespace Tests
         public CallbackManagerFacts()
         {
             client = new SteamClient();
-            mgr = new CallbackManager(client);
+            mgr = new CallbackManager( client );
         }
 
         readonly SteamClient client;
@@ -33,12 +33,12 @@ namespace Tests
                 didCall = true;
             }
 
-            using (mgr.Subscribe<CallbackForTest>( action ))
+            using ( mgr.Subscribe<CallbackForTest>( action ) )
             {
-                PostAndRunCallback(callback);
+                PostAndRunCallback( callback );
             }
 
-            Assert.True(didCall);
+            Assert.True( didCall );
         }
 
         [Fact]
@@ -57,16 +57,16 @@ namespace Tests
 
             using ( mgr.Subscribe<CallbackMsg>( action ) )
             {
-                PostAndRunCallback(callback);
+                PostAndRunCallback( callback );
             }
 
-            Assert.True(didCall);
+            Assert.True( didCall );
         }
 
         [Fact]
         public void PostedCallbackTriggersActionForExplicitJobIDInvalid()
         {
-            var jobID = new JobID(123456);
+            var jobID = new JobID( 123456 );
             var callback = new CallbackForTest { JobID = jobID, UniqueID = Guid.NewGuid() };
 
             var didCall = false;
@@ -79,16 +79,16 @@ namespace Tests
 
             using ( mgr.Subscribe<CallbackForTest>( JobID.Invalid, action ) )
             {
-                PostAndRunCallback(callback);
+                PostAndRunCallback( callback );
             }
 
-            Assert.True(didCall);
+            Assert.True( didCall );
         }
 
         [Fact]
         public void PostedCallbackWithJobIDTriggersActionWhenNoJobIDSpecified()
         {
-            var jobID = new JobID(123456);
+            var jobID = new JobID( 123456 );
             var callback = new CallbackForTest { JobID = jobID, UniqueID = Guid.NewGuid() };
 
             var didCall = false;
@@ -101,16 +101,16 @@ namespace Tests
 
             using ( mgr.Subscribe<CallbackForTest>( action ) )
             {
-                PostAndRunCallback(callback);
+                PostAndRunCallback( callback );
             }
 
-            Assert.True(didCall);
+            Assert.True( didCall );
         }
 
         [Fact]
         public void PostedCallbackDoesNotTriggerActionForWrongJobID()
         {
-            var jobID = new JobID(123456);
+            var jobID = new JobID( 123456 );
             var callback = new CallbackForTest { JobID = jobID, UniqueID = Guid.NewGuid() };
 
             var didCall = false;
@@ -121,16 +121,16 @@ namespace Tests
 
             using ( mgr.Subscribe<CallbackForTest>( 123, action ) )
             {
-                PostAndRunCallback(callback);
+                PostAndRunCallback( callback );
             }
 
-            Assert.False(didCall);
+            Assert.False( didCall );
         }
 
         [Fact]
         public void PostedCallbackWithJobIDTriggersCallbackForJobID()
         {
-            var jobID = new JobID(123456);
+            var jobID = new JobID( 123456 );
             var callback = new CallbackForTest { JobID = jobID, UniqueID = Guid.NewGuid() };
 
             var didCall = false;
@@ -143,10 +143,10 @@ namespace Tests
 
             using ( mgr.Subscribe<CallbackForTest>( 123456, action ) )
             {
-                PostAndRunCallback(callback);
+                PostAndRunCallback( callback );
             }
 
-            Assert.True(didCall);
+            Assert.True( didCall );
         }
 
         [Fact]
@@ -162,11 +162,11 @@ namespace Tests
 
             using ( mgr.Subscribe<CallbackForTest>( action ) )
             {
-                PostAndRunCallback(callback);
+                PostAndRunCallback( callback );
             }
-            PostAndRunCallback(callback);
+            PostAndRunCallback( callback );
 
-            Assert.Equal(1, callCount);
+            Assert.Equal( 1, callCount );
         }
 
         [Fact]
@@ -183,17 +183,17 @@ namespace Tests
 
             using ( mgr.Subscribe<CallbackForTest>( action ) )
             {
-                for (var i = 0; i < 10; i++)
+                for ( var i = 0; i < 10; i++ )
                 {
-                    client.PostCallback(callback);
+                    client.PostCallback( callback );
                 }
 
-                mgr.RunWaitAllCallbacks(TimeSpan.Zero);
-                Assert.Equal(10, numCallbacksRun);
+                mgr.RunWaitAllCallbacks( TimeSpan.Zero );
+                Assert.Equal( 10, numCallbacksRun );
 
                 // Callbacks should have been freed.
-                mgr.RunWaitAllCallbacks(TimeSpan.Zero);
-                Assert.Equal(10, numCallbacksRun);
+                mgr.RunWaitAllCallbacks( TimeSpan.Zero );
+                Assert.Equal( 10, numCallbacksRun );
             }
         }
 
@@ -232,9 +232,9 @@ namespace Tests
             }
         }
 
-        void PostAndRunCallback(CallbackMsg callback)
+        void PostAndRunCallback( CallbackMsg callback )
         {
-            client.PostCallback(callback);
+            client.PostCallback( callback );
             mgr.RunCallbacks();
         }
     }

@@ -12,9 +12,9 @@ namespace SteamKit2
         /// </summary>
         /// <param name="category">The category of the message.</param>
         /// <param name="msg">The message to log.</param>
-        public void WriteLine(string category, string msg)
+        public void WriteLine( string category, string msg )
         {
-            Console.WriteLine("[{0}]: {1}", category, msg);
+            Console.WriteLine( "[{0}]: {1}", category, msg );
         }
     }
 }

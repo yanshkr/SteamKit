@@ -18,6 +18,6 @@ namespace SteamKit2.Discovery
         /// Update the persistent list of endpoints
         /// </summary>
         /// <param name="endpoints">List of endpoints</param>
-        Task UpdateServerListAsync(IEnumerable<ServerRecord> endpoints);
+        Task UpdateServerListAsync( IEnumerable<ServerRecord> endpoints );
     }
 }

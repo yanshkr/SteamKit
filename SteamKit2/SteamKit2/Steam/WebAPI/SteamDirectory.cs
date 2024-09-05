@@ -47,7 +47,7 @@ namespace SteamKit2
             using var directory = configuration.GetAsyncWebAPIInterface( "ISteamDirectory" );
             var args = new Dictionary<string, object?>
             {
-                ["cellid"] = configuration.CellID.ToString( CultureInfo.InvariantCulture )
+                [ "cellid" ] = configuration.CellID.ToString( CultureInfo.InvariantCulture )
             };
 
             if ( maxNumServers.HasValue )

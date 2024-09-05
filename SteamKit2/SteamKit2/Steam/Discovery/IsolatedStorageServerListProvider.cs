@@ -31,7 +31,7 @@ namespace SteamKit2.Discovery
         /// <returns>List of servers if persisted, otherwise an empty list</returns>
         public Task<IEnumerable<ServerRecord>> FetchServerListAsync()
         {
-            return Task.Run(() =>
+            return Task.Run( () =>
             {
                 try
                 {
@@ -40,12 +40,12 @@ namespace SteamKit2.Discovery
                         .Select( item => ServerRecord.CreateServer( item.Address, item.Port, item.Protocols ) )
                         .ToList();
                 }
-                catch (IOException ex)
+                catch ( IOException ex )
                 {
-                    DebugLog.WriteLine("IsolatedStorageServerListProvider", "Failed to read file {0}: {1}", FileName, ex.Message);
+                    DebugLog.WriteLine( "IsolatedStorageServerListProvider", "Failed to read file {0}: {1}", FileName, ex.Message );
                     return Enumerable.Empty<ServerRecord>();
                 }
-            });
+            } );
         }
 
         /// <summary>
@@ -53,11 +53,11 @@ namespace SteamKit2.Discovery
         /// </summary>
         /// <param name="endpoints">List of server endpoints</param>
         /// <returns>Awaitable task for write completion</returns>
-        public Task UpdateServerListAsync(IEnumerable<ServerRecord> endpoints)
+        public Task UpdateServerListAsync( IEnumerable<ServerRecord> endpoints )
         {
             ArgumentNullException.ThrowIfNull( endpoints );
 
-            return Task.Run(() =>
+            return Task.Run( () =>
             {
                 try
                 {
@@ -74,11 +74,11 @@ namespace SteamKit2.Discovery
                         } ) );
                     fileStream.SetLength( fileStream.Position );
                 }
-                catch (IOException ex)
+                catch ( IOException ex )
                 {
-                    DebugLog.WriteLine("IsolatedStorageServerListProvider", "Failed to write file {0}: {1}", FileName, ex.Message);
+                    DebugLog.WriteLine( "IsolatedStorageServerListProvider", "Failed to write file {0}: {1}", FileName, ex.Message );
                 }
-            });
+            } );
         }
     }
 }

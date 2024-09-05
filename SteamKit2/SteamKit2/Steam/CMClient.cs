@@ -406,16 +406,16 @@ namespace SteamKit2.Internal
         {
         }
 
-        IConnection CreateConnection( ProtocolTypes protocol, IWebProxy? proxy)
+        IConnection CreateConnection( ProtocolTypes protocol, IWebProxy? proxy )
         {
             if ( protocol.HasFlagsFast( ProtocolTypes.WebSocket ) )
             {
-                return new WebSocketConnection( this );
+                return new WebSocketConnection( this, proxy );
             }
             else if ( protocol.HasFlagsFast( ProtocolTypes.Tcp ) )
             {
-                if (proxy is not null)
-                    throw new InvalidOperationException("Proxy is not supported for TCP connections");
+                if ( proxy is not null )
+                    throw new InvalidOperationException( "Proxy is not supported for TCP connections" );
 
                 return new EnvelopeEncryptedConnection( new TcpConnection( this ), Universe, this, DebugNetworkListener );
             }

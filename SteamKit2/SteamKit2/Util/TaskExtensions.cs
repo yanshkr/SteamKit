@@ -13,13 +13,13 @@ namespace SteamKit2
 {
     static class TaskExtensions
     {
-        public static async Task IgnoringCancellation(this Task task, CancellationToken token)
+        public static async Task IgnoringCancellation( this Task task, CancellationToken token )
         {
             try
             {
-                await task.ConfigureAwait(false);
+                await task.ConfigureAwait( false );
             }
-            catch (OperationCanceledException) when (token.IsCancellationRequested)
+            catch ( OperationCanceledException ) when ( token.IsCancellationRequested )
             {
             }
         }

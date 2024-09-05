@@ -12,12 +12,12 @@ namespace Tests
     {
         public SmartCMServerListFacts()
         {
-            var configuration = SteamConfiguration.Create(b => b.WithDirectoryFetch(false));
-            serverList = new SmartCMServerList(configuration);
+            var configuration = SteamConfiguration.Create( b => b.WithDirectoryFetch( false ) );
+            serverList = new SmartCMServerList( configuration );
         }
 
         readonly SmartCMServerList serverList;
-        
+
         [Fact]
         public void TryMergeWithList_AddsToHead_AndMovesExisting()
         {
@@ -90,7 +90,7 @@ namespace Tests
 
             var serverA = IPAddress.Parse( "10.0.0.1" );
             var serverB = IPAddress.Parse( "10.0.0.2" );
-            
+
             var goodRecord = ServerRecord.CreateSocketServer( new IPEndPoint( serverA, 27015 ) );
             var neutralRecord = ServerRecord.CreateSocketServer( new IPEndPoint( serverA, 27016 ) );
             var badRecord = ServerRecord.CreateSocketServer( new IPEndPoint( serverA, 27017 ) );
@@ -100,21 +100,21 @@ namespace Tests
 
             serverList.TryMark( badRecord.EndPoint, badRecord.ProtocolTypes, ServerQuality.Bad );
             serverList.TryMark( goodRecord.EndPoint, goodRecord.ProtocolTypes, ServerQuality.Good );
-            
+
             // Server A's endpoints were all marked bad, with goodRecord being recovered
             var nextRecord = serverList.GetNextServerCandidate( ProtocolTypes.Tcp );
             Assert.Equal( goodRecord.EndPoint, nextRecord.EndPoint );
             Assert.Equal( ProtocolTypes.Tcp, nextRecord.ProtocolTypes );
 
-            serverList.TryMark( badRecord.EndPoint, badRecord.ProtocolTypes, ServerQuality.Good);
-            
+            serverList.TryMark( badRecord.EndPoint, badRecord.ProtocolTypes, ServerQuality.Good );
+
             // Server A's bad record is now at the front, having been marked good
             nextRecord = serverList.GetNextServerCandidate( ProtocolTypes.Tcp );
             Assert.Equal( badRecord.EndPoint, nextRecord.EndPoint );
             Assert.Equal( ProtocolTypes.Tcp, nextRecord.ProtocolTypes );
         }
 
-        
+
         [Fact]
         public void GetNextServerCandidate_AllEndpointsByHostAreBad()
         {
@@ -122,7 +122,7 @@ namespace Tests
 
             var serverA = IPAddress.Parse( "10.0.0.1" );
             var serverB = IPAddress.Parse( "10.0.0.2" );
-            
+
             var goodRecord = ServerRecord.CreateSocketServer( new IPEndPoint( serverA, 27015 ) );
             var neutralRecord = ServerRecord.CreateSocketServer( new IPEndPoint( serverA, 27016 ) );
             var badRecord = ServerRecord.CreateSocketServer( new IPEndPoint( serverA, 27017 ) );
@@ -138,7 +138,7 @@ namespace Tests
             Assert.Equal( serverBRecord.EndPoint, nextRecord.EndPoint );
             Assert.Equal( ProtocolTypes.Tcp, nextRecord.ProtocolTypes );
         }
-        
+
         [Fact]
         public void GetNextServerCandidate_OnlyReturnsMatchingServerOfType()
         {
@@ -149,7 +149,7 @@ namespace Tests
             Assert.Null( endPoint );
             endPoint = serverList.GetNextServerCandidate( ProtocolTypes.Udp );
             Assert.Null( endPoint );
-            endPoint = serverList.GetNextServerCandidate( ProtocolTypes.Tcp | ProtocolTypes.Udp);
+            endPoint = serverList.GetNextServerCandidate( ProtocolTypes.Tcp | ProtocolTypes.Udp );
             Assert.Null( endPoint );
 
             endPoint = serverList.GetNextServerCandidate( ProtocolTypes.WebSocket );
@@ -170,7 +170,7 @@ namespace Tests
             Assert.Equal( record.EndPoint, endPoint.EndPoint );
             Assert.Equal( ProtocolTypes.Tcp, endPoint.ProtocolTypes );
 
-            endPoint = serverList.GetNextServerCandidate( ProtocolTypes.Udp);
+            endPoint = serverList.GetNextServerCandidate( ProtocolTypes.Udp );
             Assert.Equal( record.EndPoint, endPoint.EndPoint );
             Assert.Equal( ProtocolTypes.Udp, endPoint.ProtocolTypes );
 
@@ -243,11 +243,11 @@ namespace Tests
             DequeueAndMarkCandidate();
             Assert.True( candidatesReturned.Count == 3, "All candidates returned" );
         }
-        
+
         [Fact]
         public void TryMark_ReturnsTrue_IfServerInList()
         {
-            var record = ServerRecord.CreateSocketServer( new IPEndPoint( IPAddress.Loopback, 27015 ));
+            var record = ServerRecord.CreateSocketServer( new IPEndPoint( IPAddress.Loopback, 27015 ) );
             serverList.ReplaceList( new List<ServerRecord>() { record } );
 
             var marked = serverList.TryMark( record.EndPoint, record.ProtocolTypes, ServerQuality.Good );

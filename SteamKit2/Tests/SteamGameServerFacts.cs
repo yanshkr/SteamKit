@@ -8,16 +8,16 @@ namespace Tests
         [Fact]
         public void LogOnPostsLoggedOnCallbackWhenNoConnection()
         {
-            Handler.LogOn(new SteamGameServer.LogOnDetails
+            Handler.LogOn( new SteamGameServer.LogOnDetails
             {
                 Token = "SuperSecretToken"
-            });
+            } );
 
-            var callback = SteamClient.GetCallback( );
+            var callback = SteamClient.GetCallback();
             Assert.NotNull( callback );
             Assert.IsType<SteamUser.LoggedOnCallback>( callback );
 
-            var loc = (SteamUser.LoggedOnCallback)callback;
+            var loc = ( SteamUser.LoggedOnCallback )callback;
             Assert.Equal( EResult.NoConnection, loc.Result );
         }
 
@@ -26,11 +26,11 @@ namespace Tests
         {
             Handler.LogOnAnonymous();
 
-            var callback = SteamClient.GetCallback( );
+            var callback = SteamClient.GetCallback();
             Assert.NotNull( callback );
             Assert.IsType<SteamUser.LoggedOnCallback>( callback );
 
-            var loc = (SteamUser.LoggedOnCallback)callback;
+            var loc = ( SteamUser.LoggedOnCallback )callback;
             Assert.Equal( EResult.NoConnection, loc.Result );
         }
     }

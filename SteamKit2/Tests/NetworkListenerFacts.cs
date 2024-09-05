@@ -8,20 +8,20 @@ namespace Tests
     {
         public EMsg LastOutgoingMessage;
 
-        public void OnIncomingNetworkMessage(EMsg msgType, byte[] data)
+        public void OnIncomingNetworkMessage( EMsg msgType, byte[] data )
         {
             //
         }
 
-        public void OnOutgoingNetworkMessage(EMsg msgType, byte[] data)
+        public void OnOutgoingNetworkMessage( EMsg msgType, byte[] data )
         {
             LastOutgoingMessage = msgType;
 
-            Assert.NotNull(data);
-            Assert.NotEmpty(data);
+            Assert.NotNull( data );
+            Assert.NotEmpty( data );
         }
     }
-    
+
     public class NetworkListenerFacts
     {
         [Fact]
@@ -35,10 +35,10 @@ namespace Tests
             // Steam client has to be lied to because Send() has an assert for a connection
             typeof( CMClient ).GetProperty( "IsConnected" ).SetValue( steamClient, true, null );
 
-            var clientMsg = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayedNoDataBlob);
-            steamClient.Send(clientMsg);
+            var clientMsg = new ClientMsgProtobuf<CMsgClientGamesPlayed>( EMsg.ClientGamesPlayedNoDataBlob );
+            steamClient.Send( clientMsg );
 
-            Assert.Equal(EMsg.ClientGamesPlayedNoDataBlob, listener.LastOutgoingMessage);
+            Assert.Equal( EMsg.ClientGamesPlayedNoDataBlob, listener.LastOutgoingMessage );
         }
     }
 }

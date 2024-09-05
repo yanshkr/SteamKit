@@ -7,49 +7,49 @@ namespace SteamKit2
 {
     internal static class StreamHelpers
     {
-        public static short ReadInt16(this Stream stream)
+        public static short ReadInt16( this Stream stream )
         {
-            Span<byte> data = stackalloc byte[sizeof(Int16)];
+            Span<byte> data = stackalloc byte[ sizeof( Int16 ) ];
 
             stream.Read( data );
             return BitConverter.ToInt16( data );
         }
 
-        public static ushort ReadUInt16(this Stream stream)
+        public static ushort ReadUInt16( this Stream stream )
         {
-            Span<byte> data = stackalloc byte[sizeof(UInt16)];
+            Span<byte> data = stackalloc byte[ sizeof( UInt16 ) ];
 
             stream.Read( data );
             return BitConverter.ToUInt16( data );
         }
 
-        public static int ReadInt32(this Stream stream)
+        public static int ReadInt32( this Stream stream )
         {
-            Span<byte> data = stackalloc byte[sizeof(Int32)];
+            Span<byte> data = stackalloc byte[ sizeof( Int32 ) ];
 
             stream.Read( data );
             return BitConverter.ToInt32( data );
         }
 
-        public static long ReadInt64(this Stream stream)
+        public static long ReadInt64( this Stream stream )
         {
-            Span<byte> data = stackalloc byte[sizeof(Int64)];
+            Span<byte> data = stackalloc byte[ sizeof( Int64 ) ];
 
             stream.Read( data );
             return BitConverter.ToInt64( data );
         }
 
-        public static uint ReadUInt32(this Stream stream)
+        public static uint ReadUInt32( this Stream stream )
         {
-            Span<byte> data = stackalloc byte[sizeof(UInt32)];
+            Span<byte> data = stackalloc byte[ sizeof( UInt32 ) ];
 
             stream.Read( data );
             return BitConverter.ToUInt32( data );
         }
 
-        public static ulong ReadUInt64(this Stream stream)
+        public static ulong ReadUInt64( this Stream stream )
         {
-            Span<byte> data = stackalloc byte[sizeof(UInt64)];
+            Span<byte> data = stackalloc byte[ sizeof( UInt64 ) ];
 
             stream.Read( data );
             return BitConverter.ToUInt64( data );
@@ -57,7 +57,7 @@ namespace SteamKit2
 
         public static float ReadFloat( this Stream stream )
         {
-            Span<byte> data = stackalloc byte[sizeof(float)];
+            Span<byte> data = stackalloc byte[ sizeof( float ) ];
 
             stream.Read( data );
             return BitConverter.ToSingle( data );
@@ -118,7 +118,7 @@ namespace SteamKit2
                         buffer = newBuffer;
                     }
 
-                    buffer[ position++ ] = (byte)b;
+                    buffer[ position++ ] = ( byte )b;
                 }
                 while ( true );
 

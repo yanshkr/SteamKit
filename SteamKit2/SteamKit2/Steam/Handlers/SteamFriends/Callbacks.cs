@@ -826,11 +826,11 @@ namespace SteamKit2
                         StateChangeInfo = new StateChangeDetails( membInfo.Payload );
                         break;
 
-                    // todo: handle more types
-                    // based off disassembly
-                    //   - for InfoUpdate, a ChatMemberInfo object is present
-                    //   - for MemberLimitChange, looks like an ignored uint64 (probably steamid) followed
-                    //     by an int which likely represents the member limit
+                        // todo: handle more types
+                        // based off disassembly
+                        //   - for InfoUpdate, a ChatMemberInfo object is present
+                        //   - for MemberLimitChange, looks like an ignored uint64 (probably steamid) followed
+                        //     by an int which likely represents the member limit
                 }
             }
         }
@@ -1073,7 +1073,7 @@ namespace SteamKit2
             {
                 JobID = jobID;
 
-                Result = (EResult)msg.result;
+                Result = ( EResult )msg.result;
                 Name = msg.player_name;
             }
         }

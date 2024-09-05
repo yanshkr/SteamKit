@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SteamKit2.Util;
 internal class SpoofUtils
@@ -16,7 +14,7 @@ internal class SpoofUtils
 
     public static string RandomWindowsNetName()
     {
-       return "DESKTOP-" + RandomString(Random.Shared.Next(6, 8));
+        return "DESKTOP-" + RandomString( Random.Shared.Next( 6, 8 ) );
     }
 
     public static string GetRandomMacAddress()

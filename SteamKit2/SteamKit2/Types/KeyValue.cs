@@ -509,9 +509,9 @@ namespace SteamKit2
         /// <param name="path">The path to the file to load.</param>
         /// <param name="keyValue">The resulting <see cref="KeyValue"/> object if the load was successful, or <c>null</c> if unsuccessful.</param>
         /// <returns><c>true</c> if the load was successful, or <c>false</c> on failure.</returns>
-        public static bool TryLoadAsBinary( string path, [NotNullWhen(true)] out KeyValue? keyValue )
+        public static bool TryLoadAsBinary( string path, [NotNullWhen( true )] out KeyValue? keyValue )
         {
-            keyValue = LoadFromFile(path, true);
+            keyValue = LoadFromFile( path, true );
             return keyValue != null;
         }
 
@@ -691,7 +691,7 @@ namespace SteamKit2
         {
             ArgumentNullException.ThrowIfNull( stream );
 
-            if (asBinary)
+            if ( asBinary )
             {
                 RecursiveSaveBinaryToStream( stream );
             }
@@ -809,7 +809,7 @@ namespace SteamKit2
                 }
 
                 current.Name = input.ReadNullTermString( Encoding.UTF8 );
-                
+
                 switch ( type )
                 {
                     case Type.None:
@@ -831,7 +831,7 @@ namespace SteamKit2
 
                     case Type.WideString:
                         {
-                            DebugLog.WriteLine( "KeyValue", "Encountered WideString type when parsing binary KeyValue, which is unsupported. Returning false.");
+                            DebugLog.WriteLine( "KeyValue", "Encountered WideString type when parsing binary KeyValue, which is unsupported. Returning false." );
                             return false;
                         }
 
@@ -867,7 +867,7 @@ namespace SteamKit2
                         }
                 }
 
-                parent?.Children.Add(current);
+                parent?.Children.Add( current );
                 current = new KeyValue();
             }
 

@@ -60,7 +60,7 @@ namespace SteamKit2
         public override SteamID? SteamID
         {
             get => ProtoHeader.steamid;
-            set => ProtoHeader.steamid = value ?? throw new ArgumentNullException( nameof(value) );
+            set => ProtoHeader.steamid = value ?? throw new ArgumentNullException( nameof( value ) );
         }
 #pragma warning restore CS8765 // Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes).
 
@@ -73,7 +73,7 @@ namespace SteamKit2
         public override JobID TargetJobID
         {
             get => ProtoHeader.jobid_target;
-            set => ProtoHeader.jobid_target = value ?? throw new ArgumentNullException( nameof(value) );
+            set => ProtoHeader.jobid_target = value ?? throw new ArgumentNullException( nameof( value ) );
         }
         /// <summary>
         /// Gets or sets the source job id for this client message.
@@ -84,7 +84,7 @@ namespace SteamKit2
         public override JobID SourceJobID
         {
             get => ProtoHeader.jobid_source;
-            set => ProtoHeader.jobid_source = value ?? throw new ArgumentNullException( nameof(value) );
+            set => ProtoHeader.jobid_source = value ?? throw new ArgumentNullException( nameof( value ) );
         }
 
 
@@ -107,7 +107,7 @@ namespace SteamKit2
         /// </summary>
         /// <param name="msg">The packet message to build this client message from.</param>
         public ClientMsgProtobuf( IPacketMsg msg )
-            : this( msg.GetMsgTypeWithNullCheck( nameof(msg) ) )
+            : this( msg.GetMsgTypeWithNullCheck( nameof( msg ) ) )
         {
             if ( msg is not PacketClientMsgProtobuf packetMsgProto )
             {
@@ -182,17 +182,17 @@ namespace SteamKit2
         /// </summary>
         /// <param name="msg">The packet message to build this client message from.</param>
         public ClientMsgProtobuf( IPacketMsg msg )
-            : this( msg.GetMsgTypeWithNullCheck( nameof(msg) ) )
+            : this( msg.GetMsgTypeWithNullCheck( nameof( msg ) ) )
         {
             if ( msg is not PacketClientMsgProtobuf packetMsg )
             {
-                throw new InvalidDataException( $"ClientMsgProtobuf<{typeof(TBody).FullName}> used for non-proto message!" );
+                throw new InvalidDataException( $"ClientMsgProtobuf<{typeof( TBody ).FullName}> used for non-proto message!" );
             }
 
             Header = packetMsg.Header;
 
             var data = packetMsg.GetData();
-            var offset = (int)packetMsg.BodyOffset;
+            var offset = ( int )packetMsg.BodyOffset;
             using MemoryStream ms = new MemoryStream( data, offset, data.Length - offset );
 
             Body = Serializer.Deserialize<TBody>( ms );
@@ -268,7 +268,7 @@ namespace SteamKit2
         public override SteamID? SteamID
         {
             get => Header.SteamID;
-            set => Header.SteamID = value ?? throw new ArgumentNullException( nameof(value) );
+            set => Header.SteamID = value ?? throw new ArgumentNullException( nameof( value ) );
         }
 #pragma warning restore CS8765 // Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes).
 
@@ -281,7 +281,7 @@ namespace SteamKit2
         public override JobID TargetJobID
         {
             get => Header.TargetJobID;
-            set => Header.TargetJobID = value ?? throw new ArgumentNullException( nameof(value) );
+            set => Header.TargetJobID = value ?? throw new ArgumentNullException( nameof( value ) );
         }
         /// <summary>
         /// Gets or sets the source job id for this client message.
@@ -292,7 +292,7 @@ namespace SteamKit2
         public override JobID SourceJobID
         {
             get => Header.SourceJobID;
-            set => Header.SourceJobID = value ?? throw new ArgumentNullException( nameof(value) );
+            set => Header.SourceJobID = value ?? throw new ArgumentNullException( nameof( value ) );
         }
 
 
@@ -349,7 +349,7 @@ namespace SteamKit2
             Header = packetMsg.Header;
 
             var data = packetMsg.GetData();
-            var offset = (int)packetMsg.BodyOffset;
+            var offset = ( int )packetMsg.BodyOffset;
             using MemoryStream ms = new MemoryStream( data, offset, data.Length - offset );
 
             Body.Deserialize( ms );
@@ -429,7 +429,7 @@ namespace SteamKit2
         public override JobID TargetJobID
         {
             get => Header.TargetJobID;
-            set => Header.TargetJobID = value ?? throw new ArgumentNullException( nameof(value) );
+            set => Header.TargetJobID = value ?? throw new ArgumentNullException( nameof( value ) );
         }
         /// <summary>
         /// Gets or sets the source job id for this client message.
@@ -440,7 +440,7 @@ namespace SteamKit2
         public override JobID SourceJobID
         {
             get => Header.SourceJobID;
-            set => Header.SourceJobID = value ?? throw new ArgumentNullException( nameof(value) );
+            set => Header.SourceJobID = value ?? throw new ArgumentNullException( nameof( value ) );
         }
 
 
@@ -497,7 +497,7 @@ namespace SteamKit2
             Header = packetMsg.Header;
 
             var data = packetMsg.GetData();
-            var offset = (int)packetMsg.BodyOffset;
+            var offset = ( int )packetMsg.BodyOffset;
             using MemoryStream ms = new MemoryStream( data, offset, data.Length - offset );
 
             Body.Deserialize( ms );

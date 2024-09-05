@@ -98,8 +98,8 @@ namespace SteamKit2
 
     }
 
-// warning CS0660: 'SteamKit2.UGCHandle' defines operator == or operator != but does not override Object.Equals(object o)
-// this is disabled because our base UInt64Handle class handles Object.Equals for us
+    // warning CS0660: 'SteamKit2.UGCHandle' defines operator == or operator != but does not override Object.Equals(object o)
+    // this is disabled because our base UInt64Handle class handles Object.Equals for us
 #pragma warning disable 0660
 #pragma warning disable 0661
 

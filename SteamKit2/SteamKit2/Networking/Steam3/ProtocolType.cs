@@ -29,7 +29,7 @@ namespace SteamKit2
         /// WebSockets (HTTP / TLS)
         /// </summary>
         WebSocket = 1 << 2,
-        
+
         /// <summary>
         /// All available protocol types
         /// </summary>
@@ -38,22 +38,22 @@ namespace SteamKit2
 
     static class ProtocolTypesExtensions
     {
-        public static bool HasFlagsFast(this ProtocolTypes self, ProtocolTypes flags)
-            => (self & flags) > 0;
+        public static bool HasFlagsFast( this ProtocolTypes self, ProtocolTypes flags )
+            => ( self & flags ) > 0;
 
-        internal static IEnumerable<ProtocolTypes> GetFlags(this ProtocolTypes self)
+        internal static IEnumerable<ProtocolTypes> GetFlags( this ProtocolTypes self )
         {
-            if (self.HasFlagsFast(ProtocolTypes.Tcp))
+            if ( self.HasFlagsFast( ProtocolTypes.Tcp ) )
             {
                 yield return ProtocolTypes.Tcp;
             }
 
-            if (self.HasFlagsFast(ProtocolTypes.Udp))
+            if ( self.HasFlagsFast( ProtocolTypes.Udp ) )
             {
                 yield return ProtocolTypes.Udp;
             }
 
-            if (self.HasFlagsFast(ProtocolTypes.WebSocket))
+            if ( self.HasFlagsFast( ProtocolTypes.WebSocket ) )
             {
                 yield return ProtocolTypes.WebSocket;
             }

@@ -51,7 +51,7 @@ namespace SteamKit2
         /// Will create a folder in path "%assembly%/nethook/%currenttime%/"
         /// </summary>
         /// <param name="log">An optional logging context for log messages.</param>
-        public NetHookNetworkListener(ILogContext? log = null)
+        public NetHookNetworkListener( ILogContext? log = null )
         {
             this.log = log ?? DebugLogContext.Instance;
 

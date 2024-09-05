@@ -152,7 +152,7 @@ namespace SteamKit2
         /// </summary>
         /// <param name="steamId">A "STEAM_" rendered form of the SteamID.</param>
         public SteamID( string steamId )
-            : this ( steamId, EUniverse.Public )
+            : this( steamId, EUniverse.Public )
         {
         }
 
@@ -226,7 +226,7 @@ namespace SteamKit2
                 return false;
             }
 
-            if ( !uint.TryParse( m.Groups[ "accountid" ].Value, out var accId ) || 
+            if ( !uint.TryParse( m.Groups[ "accountid" ].Value, out var accId ) ||
                  !uint.TryParse( m.Groups[ "authserver" ].Value, out var authServer ) )
             {
                 return false;
@@ -562,9 +562,9 @@ namespace SteamKit2
         /// </summary>
         /// <returns><c>true</c> if this chat ID represents a group chat, <c>false</c> otherwise.</returns>\
         /// <param name="groupID">If the method returned <c>true</c>, then this is the group that this chat is associated with. Otherwise, this is <c>null</c>.</param>
-        public bool TryGetClanID( [NotNullWhen(true)] out SteamID? groupID )
+        public bool TryGetClanID( [NotNullWhen( true )] out SteamID? groupID )
         {
-            if ( IsChatAccount && AccountInstance == (uint)ChatInstanceFlags.Clan )
+            if ( IsChatAccount && AccountInstance == ( uint )ChatInstanceFlags.Clan )
             {
                 groupID = ConvertToUInt64();
                 groupID.AccountType = EAccountType.Clan;
@@ -602,7 +602,7 @@ namespace SteamKit2
             {
                 if ( ( ( ChatInstanceFlags )AccountInstance ).HasFlag( ChatInstanceFlags.Clan ) )
                 {
-                   accountTypeChar = 'c';
+                    accountTypeChar = 'c';
                 }
                 else if ( ( ( ChatInstanceFlags )AccountInstance ).HasFlag( ChatInstanceFlags.Lobby ) )
                 {
@@ -620,16 +620,16 @@ namespace SteamKit2
                     break;
 
                 case EAccountType.Individual:
-                    renderInstance = (AccountInstance != DesktopInstance);
+                    renderInstance = ( AccountInstance != DesktopInstance );
                     break;
             }
 
             if ( renderInstance )
             {
-                return $"[{accountTypeChar}:{(uint)AccountUniverse}:{AccountID}:{AccountInstance}]";
+                return $"[{accountTypeChar}:{( uint )AccountUniverse}:{AccountID}:{AccountInstance}]";
             }
 
-            return $"[{accountTypeChar}:{(uint)AccountUniverse}:{AccountID}]";
+            return $"[{accountTypeChar}:{( uint )AccountUniverse}:{AccountID}]";
         }
 
         /// <summary>

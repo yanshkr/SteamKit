@@ -13,7 +13,7 @@ namespace Tests
     {
         public SteamConfigurationDefaultFacts()
         {
-            configuration = SteamConfiguration.Create(_ => { });
+            configuration = SteamConfiguration.Create( _ => { } );
         }
 
         readonly SteamConfiguration configuration;
@@ -21,19 +21,19 @@ namespace Tests
         [Fact]
         public void AllowsDirectoryFetch()
         {
-            Assert.True(configuration.AllowDirectoryFetch);
+            Assert.True( configuration.AllowDirectoryFetch );
         }
 
         [Fact]
         public void CellIDIsZero()
         {
-            Assert.Equal(0u, configuration.CellID);
+            Assert.Equal( 0u, configuration.CellID );
         }
 
         [Fact]
         public void ConnectionTimeoutIsFiveSeconds()
         {
-            Assert.Equal(TimeSpan.FromSeconds(5), configuration.ConnectionTimeout);
+            Assert.Equal( TimeSpan.FromSeconds( 5 ), configuration.ConnectionTimeout );
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace Tests
                     EClientPersonaStateFlag.SourceID | EClientPersonaStateFlag.GameExtraInfo |
                     EClientPersonaStateFlag.LastSeen;
 
-            Assert.Equal(expected, configuration.DefaultPersonaStateFlags);
+            Assert.Equal( expected, configuration.DefaultPersonaStateFlags );
         }
 
         [Fact]
@@ -60,44 +60,44 @@ namespace Tests
         [Fact]
         public void DefaultMachineInfoProvider()
         {
-            Assert.NotNull(configuration.MachineInfoProvider);
-            Assert.IsNotType<DefaultMachineInfoProvider>(configuration.MachineInfoProvider);
+            Assert.NotNull( configuration.MachineInfoProvider );
+            Assert.IsNotType<DefaultMachineInfoProvider>( configuration.MachineInfoProvider );
         }
 
         [Fact]
         public void ServerListProviderIsNothingFancy()
         {
-            Assert.IsType<MemoryServerListProvider>(configuration.ServerListProvider);
+            Assert.IsType<MemoryServerListProvider>( configuration.ServerListProvider );
         }
 
         [Fact]
         public void ServerListIsNotNull()
         {
-            Assert.NotNull(configuration.ServerList);
+            Assert.NotNull( configuration.ServerList );
         }
 
         [Fact]
         public void DefaultProtocols()
         {
-            Assert.Equal(ProtocolTypes.Tcp | ProtocolTypes.WebSocket, configuration.ProtocolTypes);
+            Assert.Equal( ProtocolTypes.Tcp | ProtocolTypes.WebSocket, configuration.ProtocolTypes );
         }
 
         [Fact]
         public void PublicUniverse()
         {
-            Assert.Equal(EUniverse.Public, configuration.Universe);
+            Assert.Equal( EUniverse.Public, configuration.Universe );
         }
 
         [Fact]
         public void WebAPIAddress()
         {
-            Assert.Equal("https://api.steampowered.com/", configuration.WebAPIBaseAddress?.AbsoluteUri);
+            Assert.Equal( "https://api.steampowered.com/", configuration.WebAPIBaseAddress?.AbsoluteUri );
         }
 
         [Fact]
         public void NoWebAPIKey()
         {
-            Assert.Null(configuration.WebAPIKey);
+            Assert.Null( configuration.WebAPIKey );
         }
     }
 
@@ -105,18 +105,18 @@ namespace Tests
     {
         public SteamConfigurationConfiguredObjectFacts()
         {
-            configuration = SteamConfiguration.Create(b =>
-                b.WithDirectoryFetch(false)
-                 .WithCellID(123)
-                 .WithConnectionTimeout(TimeSpan.FromMinutes(1))
-                 .WithDefaultPersonaStateFlags(EClientPersonaStateFlag.SourceID)
-                 .WithHttpClientFactory(() => { var c = new HttpClient(); c.DefaultRequestHeaders.Add("X-SteamKit-Tests", "true"); return c; })
-                 .WithMachineInfoProvider(new CustomMachineInfoProvider())
-                 .WithProtocolTypes(ProtocolTypes.WebSocket | ProtocolTypes.Udp)
-                 .WithServerListProvider(new CustomServerListProvider())
-                 .WithUniverse(EUniverse.Internal)
-                 .WithWebAPIBaseAddress(new Uri("http://foo.bar.com/api/"))
-                 .WithWebAPIKey("T0PS3kR1t"));
+            configuration = SteamConfiguration.Create( b =>
+                b.WithDirectoryFetch( false )
+                 .WithCellID( 123 )
+                 .WithConnectionTimeout( TimeSpan.FromMinutes( 1 ) )
+                 .WithDefaultPersonaStateFlags( EClientPersonaStateFlag.SourceID )
+                 .WithHttpClientFactory( () => { var c = new HttpClient(); c.DefaultRequestHeaders.Add( "X-SteamKit-Tests", "true" ); return c; } )
+                 .WithMachineInfoProvider( new CustomMachineInfoProvider() )
+                 .WithProtocolTypes( ProtocolTypes.WebSocket | ProtocolTypes.Udp )
+                 .WithServerListProvider( new CustomServerListProvider() )
+                 .WithUniverse( EUniverse.Internal )
+                 .WithWebAPIBaseAddress( new Uri( "http://foo.bar.com/api/" ) )
+                 .WithWebAPIKey( "T0PS3kR1t" ) );
         }
 
         readonly SteamConfiguration configuration;
@@ -124,19 +124,19 @@ namespace Tests
         [Fact]
         public void DirectoryFetchIsConfigured()
         {
-            Assert.False(configuration.AllowDirectoryFetch);
+            Assert.False( configuration.AllowDirectoryFetch );
         }
 
         [Fact]
         public void CellIDIsConfigured()
         {
-            Assert.Equal(123u, configuration.CellID);
+            Assert.Equal( 123u, configuration.CellID );
         }
 
         [Fact]
         public void ConnectionTimeoutIsConfigured()
         {
-            Assert.Equal(TimeSpan.FromMinutes(1), configuration.ConnectionTimeout);
+            Assert.Equal( TimeSpan.FromMinutes( 1 ), configuration.ConnectionTimeout );
         }
 
         [Fact]
@@ -149,50 +149,50 @@ namespace Tests
         [Fact]
         public void MachineInfoProviderIsConfigured()
         {
-            Assert.IsType<CustomMachineInfoProvider>(configuration.MachineInfoProvider);
-            Assert.Same(configuration.MachineInfoProvider, configuration.MachineInfoProvider);
+            Assert.IsType<CustomMachineInfoProvider>( configuration.MachineInfoProvider );
+            Assert.Same( configuration.MachineInfoProvider, configuration.MachineInfoProvider );
         }
 
         [Fact]
         public void PersonaStateFlagsIsConfigured()
         {
-            Assert.Equal(EClientPersonaStateFlag.SourceID, configuration.DefaultPersonaStateFlags);
+            Assert.Equal( EClientPersonaStateFlag.SourceID, configuration.DefaultPersonaStateFlags );
         }
 
         [Fact]
         public void ServerListProviderIsConfigured()
         {
-            Assert.IsType<CustomServerListProvider>(configuration.ServerListProvider);
+            Assert.IsType<CustomServerListProvider>( configuration.ServerListProvider );
         }
 
         [Fact]
         public void ServerListIsNotNull()
         {
-            Assert.NotNull(configuration.ServerList);
+            Assert.NotNull( configuration.ServerList );
         }
 
         [Fact]
         public void ProtocolsAreConfigured()
         {
-            Assert.Equal(ProtocolTypes.WebSocket | ProtocolTypes.Udp, configuration.ProtocolTypes);
+            Assert.Equal( ProtocolTypes.WebSocket | ProtocolTypes.Udp, configuration.ProtocolTypes );
         }
 
         [Fact]
         public void UniverseIsConfigured()
         {
-            Assert.Equal(EUniverse.Internal, configuration.Universe);
+            Assert.Equal( EUniverse.Internal, configuration.Universe );
         }
 
         [Fact]
         public void WebAPIAddress()
         {
-            Assert.Equal("http://foo.bar.com/api/", configuration.WebAPIBaseAddress?.AbsoluteUri);
+            Assert.Equal( "http://foo.bar.com/api/", configuration.WebAPIBaseAddress?.AbsoluteUri );
         }
 
         [Fact]
         public void NoWebAPIKey()
         {
-            Assert.Equal("T0PS3kR1t", configuration.WebAPIKey);
+            Assert.Equal( "T0PS3kR1t", configuration.WebAPIKey );
         }
 
         class CustomMachineInfoProvider : IMachineInfoProvider
@@ -210,7 +210,7 @@ namespace Tests
             Task<IEnumerable<ServerRecord>> IServerListProvider.FetchServerListAsync()
                 => throw new NotImplementedException();
 
-            Task IServerListProvider.UpdateServerListAsync(IEnumerable<ServerRecord> endpoints)
+            Task IServerListProvider.UpdateServerListAsync( IEnumerable<ServerRecord> endpoints )
                 => throw new NotImplementedException();
         }
     }

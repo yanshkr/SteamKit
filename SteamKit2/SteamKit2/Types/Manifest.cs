@@ -64,7 +64,7 @@ namespace SteamKit2
 
                 TotalSize = ds.ReadUInt64();
 
-                Flags = (EDepotFileFlag)ds.ReadUInt32();
+                Flags = ( EDepotFileFlag )ds.ReadUInt32();
 
                 HashContent = ds.ReadBytes( 20 );
                 HashFileName = ds.ReadBytes( 20 );
@@ -73,7 +73,7 @@ namespace SteamKit2
 
                 Chunks = new Chunk[ NumChunks ];
 
-                for ( int x = 0 ; x < Chunks.Length ; ++x )
+                for ( int x = 0; x < Chunks.Length; ++x )
                 {
                     Chunks[ x ] = new Chunk();
                     Chunks[ x ].Deserialize( ds );
@@ -85,7 +85,7 @@ namespace SteamKit2
         const uint CURRENT_VERSION = 4;
 
         public uint Magic { get; set; }
-        public uint Version { get; set; } 
+        public uint Version { get; set; }
 
         public uint DepotID { get; set; }
 
@@ -146,15 +146,15 @@ namespace SteamKit2
 
             Flags = ds.ReadUInt32();
 
-            for (uint i = FileMappingSize; i > 0; )
+            for ( uint i = FileMappingSize; i > 0; )
             {
                 long start = ds.BaseStream.Position;
 
                 FileMapping mapping = new FileMapping();
-                mapping.Deserialize(ds);
-                Mapping.Add(mapping);
+                mapping.Deserialize( ds );
+                Mapping.Add( mapping );
 
-                i -= (uint)(ds.BaseStream.Position - start);
+                i -= ( uint )( ds.BaseStream.Position - start );
             }
         }
 

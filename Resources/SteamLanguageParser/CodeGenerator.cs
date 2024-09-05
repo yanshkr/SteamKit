@@ -5,9 +5,9 @@ namespace SteamLanguageParser
 {
     interface ICodeGen
     {
-        void EmitNamespace(StringBuilder sb, bool end, string nspace);
-        void EmitSerialBase(StringBuilder sb, int level, bool supportsGC);
-        void EmitNode(Node n, StringBuilder sb, int level);
+        void EmitNamespace( StringBuilder sb, bool end, string nspace );
+        void EmitSerialBase( StringBuilder sb, int level, bool supportsGC );
+        void EmitNode( Node n, StringBuilder sb, int level );
 
         bool SupportsNamespace();
         bool SupportsUnsignedTypes();
@@ -21,14 +21,14 @@ namespace SteamLanguageParser
             public bool Signed { get; private set; }
             public string SignedType { get; private set; }
 
-            public TypeInfo(int size, string unsigned)
+            public TypeInfo( int size, string unsigned )
             {
                 Size = size;
                 Signed = false;
                 SignedType = unsigned;
             }
 
-            public TypeInfo(int size)
+            public TypeInfo( int size )
             {
                 Size = size;
                 Signed = true;
@@ -47,9 +47,9 @@ namespace SteamLanguageParser
             {"ulong", new TypeInfo(8, "long")},
         };
 
-        public static string GetUnsignedType(string type)
+        public static string GetUnsignedType( string type )
         {
-            if (weakTypeMap.TryGetValue(type, out var value) && !value.Signed)
+            if ( weakTypeMap.TryGetValue( type, out var value ) && !value.Signed )
             {
                 return value.SignedType;
             }
@@ -57,23 +57,23 @@ namespace SteamLanguageParser
             return type;
         }
 
-        public static string GetTypeOfSize(int size, bool unsigned)
+        public static string GetTypeOfSize( int size, bool unsigned )
         {
-            foreach (string key in weakTypeMap.Keys)
+            foreach ( string key in weakTypeMap.Keys )
             {
-                if (weakTypeMap[key].Size == size)
+                if ( weakTypeMap[ key ].Size == size )
                 {
-                    if (unsigned && weakTypeMap[key].Signed == false)
+                    if ( unsigned && weakTypeMap[ key ].Signed == false )
                     {
                         return key;
                     }
-                    else if (weakTypeMap[key].Signed)
+                    else if ( weakTypeMap[ key ].Signed )
                     {
                         return key;
                     }
-                    else if (!weakTypeMap[key].Signed)
+                    else if ( !weakTypeMap[ key ].Signed )
                     {
-                        return weakTypeMap[key].SignedType;
+                        return weakTypeMap[ key ].SignedType;
                     }
                 }
             }
@@ -81,48 +81,48 @@ namespace SteamLanguageParser
             return "bad";
         }
 
-        public static int GetTypeSize(PropNode prop)
+        public static int GetTypeSize( PropNode prop )
         {
             Symbol sym = prop.Type;
 
             // no static size for proto
-            if (prop.Flags != null && prop.Flags == "proto")
+            if ( prop.Flags != null && prop.Flags == "proto" )
             {
                 return 0;
             }
 
-            if (sym is WeakSymbol)
+            if ( sym is WeakSymbol )
             {
                 WeakSymbol wsym = sym as WeakSymbol;
                 string key = wsym.Identifier;
 
-                if (!weakTypeMap.ContainsKey(key))
+                if ( !weakTypeMap.ContainsKey( key ) )
                 {
                     key = defaultType;
                 }
 
-                if (!string.IsNullOrEmpty(prop.FlagsOpt))
+                if ( !string.IsNullOrEmpty( prop.FlagsOpt ) )
                 {
-                    return int.Parse(prop.FlagsOpt);
+                    return int.Parse( prop.FlagsOpt );
                 }
 
-                return weakTypeMap[key].Size;
+                return weakTypeMap[ key ].Size;
             }
-            else if (sym is StrongSymbol)
+            else if ( sym is StrongSymbol )
             {
                 StrongSymbol ssym = sym as StrongSymbol;
 
-                if (ssym.Class is EnumNode)
+                if ( ssym.Class is EnumNode )
                 {
                     EnumNode enode = ssym.Class as EnumNode;
 
-                    if (enode.Type is WeakSymbol weakSymbol)
+                    if ( enode.Type is WeakSymbol weakSymbol )
                     {
-                        return weakTypeMap[weakSymbol.Identifier].Size;
+                        return weakTypeMap[ weakSymbol.Identifier ].Size;
                     }
                     else
                     {
-                        return weakTypeMap[defaultType].Size;
+                        return weakTypeMap[ defaultType ].Size;
                     }
                 }
             }
@@ -130,27 +130,27 @@ namespace SteamLanguageParser
             return 0;
         }
 
-        public static void EmitCode(Node root, ICodeGen gen, StringBuilder sb, string nspace, bool supportsGC, bool internalFile)
+        public static void EmitCode( Node root, ICodeGen gen, StringBuilder sb, string nspace, bool supportsGC, bool internalFile )
         {
-            gen.EmitNamespace(sb, false, nspace);
+            gen.EmitNamespace( sb, false, nspace );
 
             int level = 0;
-            if (gen.SupportsNamespace())
+            if ( gen.SupportsNamespace() )
             {
                 level = 1;
             }
 
-            if (internalFile)
+            if ( internalFile )
             {
-                gen.EmitSerialBase(sb, level, supportsGC);
+                gen.EmitSerialBase( sb, level, supportsGC );
             }
 
-            foreach (Node n in root.ChildNodes)
+            foreach ( Node n in root.ChildNodes )
             {
-                gen.EmitNode(n, sb, level);
+                gen.EmitNode( n, sb, level );
             }
 
-            gen.EmitNamespace(sb, true, nspace);
+            gen.EmitNamespace( sb, true, nspace );
         }
 
     }

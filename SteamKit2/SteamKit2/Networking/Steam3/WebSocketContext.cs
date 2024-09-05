@@ -13,7 +13,7 @@ namespace SteamKit2
     {
         internal class WebSocketContext : IDisposable
         {
-            public WebSocketContext(WebSocketConnection connection, EndPoint endPoint, IWebProxy? proxy)
+            public WebSocketContext( WebSocketConnection connection, EndPoint endPoint, IWebProxy? proxy )
             {
                 this.connection = connection ?? throw new ArgumentNullException( nameof( connection ) );
                 EndPoint = endPoint ?? throw new ArgumentNullException( nameof( endPoint ) );
@@ -22,7 +22,7 @@ namespace SteamKit2
                 socket = new ClientWebSocket();
                 socket.Options.Proxy = proxy;
 
-                connectionUri = ConstructUri(endPoint);
+                connectionUri = ConstructUri( endPoint );
             }
 
             readonly WebSocketConnection connection;
@@ -34,40 +34,40 @@ namespace SteamKit2
 
             public EndPoint EndPoint { get; }
 
-            public void Start(TimeSpan connectionTimeout)
+            public void Start( TimeSpan connectionTimeout )
             {
-                runloopTask = RunCore(connectionTimeout, cts.Token).IgnoringCancellation(cts.Token);
+                runloopTask = RunCore( connectionTimeout, cts.Token ).IgnoringCancellation( cts.Token );
             }
 
-            async Task RunCore(TimeSpan connectionTimeout, CancellationToken cancellationToken)
+            async Task RunCore( TimeSpan connectionTimeout, CancellationToken cancellationToken )
             {
-                using (var timeout = new CancellationTokenSource())
-                using (var combinedCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeout.Token))
+                using ( var timeout = new CancellationTokenSource() )
+                using ( var combinedCancellation = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken, timeout.Token ) )
                 {
-                    timeout.CancelAfter(connectionTimeout);
+                    timeout.CancelAfter( connectionTimeout );
 
                     try
                     {
-                        await socket.ConnectAsync(connectionUri, combinedCancellation.Token).ConfigureAwait(false);
+                        await socket.ConnectAsync( connectionUri, combinedCancellation.Token ).ConfigureAwait( false );
                     }
-                    catch (TaskCanceledException) when (timeout.IsCancellationRequested)
+                    catch ( TaskCanceledException ) when ( timeout.IsCancellationRequested )
                     {
-                        connection.log.LogDebug(nameof(WebSocketContext), "Time out connecting websocket {0} after {1}", connectionUri, connectionTimeout);
-                        connection.DisconnectCore(userInitiated: false, specificContext: this);
+                        connection.log.LogDebug( nameof( WebSocketContext ), "Time out connecting websocket {0} after {1}", connectionUri, connectionTimeout );
+                        connection.DisconnectCore( userInitiated: false, specificContext: this );
                         return;
                     }
-                    catch (Exception ex)
+                    catch ( Exception ex )
                     {
-                        connection.log.LogDebug( nameof(WebSocketContext), "Exception connecting websocket: {0} - {1}", ex.GetType().FullName, ex.Message);
-                        connection.DisconnectCore(userInitiated: false, specificContext: this);
+                        connection.log.LogDebug( nameof( WebSocketContext ), "Exception connecting websocket: {0} - {1}", ex.GetType().FullName, ex.Message );
+                        connection.DisconnectCore( userInitiated: false, specificContext: this );
                         return;
                     }
                 }
 
-                connection.log.LogDebug( nameof(WebSocketContext), "Connected to {0}", connectionUri);
-                connection.Connected?.Invoke(connection, EventArgs.Empty);
+                connection.log.LogDebug( nameof( WebSocketContext ), "Connected to {0}", connectionUri );
+                connection.Connected?.Invoke( connection, EventArgs.Empty );
 
-                while (!cancellationToken.IsCancellationRequested && socket.State == WebSocketState.Open)
+                while ( !cancellationToken.IsCancellationRequested && socket.State == WebSocketState.Open )
                 {
                     byte[]? packet = null;
 
@@ -82,43 +82,43 @@ namespace SteamKit2
                         return;
                     }
 
-                    if (packet != null && packet.Length > 0)
+                    if ( packet != null && packet.Length > 0 )
                     {
-                        connection.NetMsgReceived?.Invoke(connection, new NetMsgEventArgs(packet, EndPoint));
+                        connection.NetMsgReceived?.Invoke( connection, new NetMsgEventArgs( packet, EndPoint ) );
                     }
                 }
 
-                if (socket.State == WebSocketState.Open)
+                if ( socket.State == WebSocketState.Open )
                 {
-                    connection.log.LogDebug( nameof(WebSocketContext), "Closing connection...");
+                    connection.log.LogDebug( nameof( WebSocketContext ), "Closing connection..." );
                     try
                     {
-                        await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, null, default).ConfigureAwait(false);
+                        await socket.CloseAsync( WebSocketCloseStatus.NormalClosure, null, default ).ConfigureAwait( false );
                     }
-                    catch (Win32Exception ex)
+                    catch ( Win32Exception ex )
                     {
-                        connection.log.LogDebug( nameof(WebSocketContext), "Error closing connection: {0}", ex.Message);
+                        connection.log.LogDebug( nameof( WebSocketContext ), "Error closing connection: {0}", ex.Message );
                     }
                 }
             }
 
-            public async Task SendAsync(Memory<byte> data)
+            public async Task SendAsync( Memory<byte> data )
             {
                 try
                 {
-                    await socket.SendAsync(data, WebSocketMessageType.Binary, true, cts.Token).ConfigureAwait(false);
+                    await socket.SendAsync( data, WebSocketMessageType.Binary, true, cts.Token ).ConfigureAwait( false );
                 }
-                catch (WebSocketException ex)
+                catch ( WebSocketException ex )
                 {
-                    connection.log.LogDebug( nameof(WebSocketContext), "{0} exception when sending message: {1}", ex.GetType().FullName, ex.Message);
-                    connection.DisconnectCore(userInitiated: false, specificContext: this);
+                    connection.log.LogDebug( nameof( WebSocketContext ), "{0} exception when sending message: {1}", ex.GetType().FullName, ex.Message );
+                    connection.DisconnectCore( userInitiated: false, specificContext: this );
                     return;
                 }
             }
 
             public void Dispose()
             {
-                if (Interlocked.Exchange(ref disposed, 1) == 1)
+                if ( Interlocked.Exchange( ref disposed, 1 ) == 1 )
                 {
                     return;
                 }
@@ -213,13 +213,13 @@ namespace SteamKit2
                 }
             }
 
-            internal static Uri ConstructUri(EndPoint endPoint)
+            internal static Uri ConstructUri( EndPoint endPoint )
             {
                 var uri = new UriBuilder();
                 uri.Scheme = "wss";
                 uri.Path = "/cmsocket/";
 
-                switch (endPoint)
+                switch ( endPoint )
                 {
                     case IPEndPoint ipep:
                         uri.Port = ipep.Port;
@@ -232,7 +232,7 @@ namespace SteamKit2
                         break;
 
                     default:
-                        throw new InvalidOperationException("Unsupported endpoint type.");
+                        throw new InvalidOperationException( "Unsupported endpoint type." );
                 }
 
                 return uri.Uri;

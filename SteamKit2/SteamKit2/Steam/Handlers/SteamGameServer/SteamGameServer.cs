@@ -4,7 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using SteamKit2.Internal;
@@ -96,7 +95,7 @@ namespace SteamKit2
             {
                 throw new ArgumentException( "LogOn requires a game server token to be set in 'details'." );
             }
-            
+
             if ( !this.Client.IsConnected )
             {
                 this.Client.PostCallback( new SteamUser.LoggedOnCallback( EResult.NoConnection ) );
@@ -172,24 +171,24 @@ namespace SteamKit2
         /// Results are returned in a <see cref="StatusReplyCallback"/> callback.
         /// </summary>
         /// <param name="details">A <see cref="SteamGameServer.StatusDetails"/> object containing the server's status.</param>
-        public void SendStatus(StatusDetails details)
+        public void SendStatus( StatusDetails details )
         {
             ArgumentNullException.ThrowIfNull( details );
 
-            if (details.Address != null && details.Address.AddressFamily != AddressFamily.InterNetwork)
+            if ( details.Address != null && details.Address.AddressFamily != AddressFamily.InterNetwork )
             {
-                throw new ArgumentException("Only IPv4 addresses are supported.");
+                throw new ArgumentException( "Only IPv4 addresses are supported." );
             }
 
-            var status = new ClientMsgProtobuf<CMsgGSServerType>(EMsg.GSServerType);
+            var status = new ClientMsgProtobuf<CMsgGSServerType>( EMsg.GSServerType );
             status.Body.app_id_served = details.AppID;
-            status.Body.flags = (uint)details.ServerFlags;
+            status.Body.flags = ( uint )details.ServerFlags;
             status.Body.game_dir = details.GameDirectory;
             status.Body.game_port = details.Port;
             status.Body.game_query_port = details.QueryPort;
             status.Body.game_version = details.Version;
 
-            if (details.Address != null)
+            if ( details.Address != null )
             {
                 status.Body.deprecated_game_ip_address = NetHelpers.GetIPAddressAsUInt( details.Address );
             }

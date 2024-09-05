@@ -25,7 +25,7 @@ namespace SteamKit2.Authentication
                 Console.Error.Write( "STEAM GUARD! Please enter your 2-factor auth code from your authenticator app: " );
                 code = Console.ReadLine()?.Trim();
 
-                if( code == null )
+                if ( code == null )
                 {
                     break;
                 }

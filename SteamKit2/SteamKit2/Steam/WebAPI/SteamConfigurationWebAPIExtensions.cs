@@ -14,11 +14,11 @@ namespace SteamKit2
         /// <param name="config">The configuration to use for this Web API interface.</param>
         /// <param name="iface">The interface to retrieve a handler for.</param>
         /// <returns>A dynamic <see cref="WebAPI.Interface"/> object to interact with the Web API.</returns>
-        public static WebAPI.Interface GetWebAPIInterface(this SteamConfiguration config, string iface)
+        public static WebAPI.Interface GetWebAPIInterface( this SteamConfiguration config, string iface )
         {
             ArgumentNullException.ThrowIfNull( config );
 
-            return new WebAPI.Interface(config.GetHttpClientForWebAPI(), iface, config.WebAPIKey);
+            return new WebAPI.Interface( config.GetHttpClientForWebAPI(), iface, config.WebAPIKey );
         }
 
         /// <summary>
@@ -27,14 +27,14 @@ namespace SteamKit2
         /// <param name="config">The configuration to use for this Web API interface.</param>
         /// <param name="iface">The interface to retrieve a handler for.</param>
         /// <returns>A dynamic <see cref="WebAPI.AsyncInterface"/> object to interact with the Web API.</returns>
-        public static WebAPI.AsyncInterface GetAsyncWebAPIInterface(this SteamConfiguration config, string iface)
+        public static WebAPI.AsyncInterface GetAsyncWebAPIInterface( this SteamConfiguration config, string iface )
         {
             ArgumentNullException.ThrowIfNull( config );
 
-            return new WebAPI.AsyncInterface(config.GetHttpClientForWebAPI(), iface, config.WebAPIKey);
+            return new WebAPI.AsyncInterface( config.GetHttpClientForWebAPI(), iface, config.WebAPIKey );
         }
 
-        internal static HttpClient GetHttpClientForWebAPI(this SteamConfiguration config)
+        internal static HttpClient GetHttpClientForWebAPI( this SteamConfiguration config )
         {
             var client = config.HttpClientFactory();
 

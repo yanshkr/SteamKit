@@ -4,7 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using SteamKit2.Internal;
 
 namespace SteamKit2
@@ -132,13 +131,13 @@ namespace SteamKit2
             /// </summary>
             /// <value>The chat mode.</value>
             public ChatMode ChatMode { get; set; } = ChatMode.Default;
-            
+
             /// <summary>
             /// Gets or sets the ui mode.
             /// </summary>
             /// <value>The ui mode.</value>
             public EUIMode UIMode { get; set; } = EUIMode.Unknown;
-            
+
             /// <summary>
             /// Gets or sets whether this is Steam Deck login.
             /// </summary>
@@ -284,7 +283,7 @@ namespace SteamKit2
             {
                 logon.Body.chat_mode = ( uint )details.ChatMode;
             }
-            
+
             if ( details.UIMode != EUIMode.Unknown )
             {
                 logon.Body.ui_mode = ( uint )details.UIMode;

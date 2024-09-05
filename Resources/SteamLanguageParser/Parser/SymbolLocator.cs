@@ -12,19 +12,19 @@ namespace SteamLanguageParser
         public Node Class { get; private set; }
         public Node Prop { get; private set; }
 
-        public StrongSymbol(Node classNode)
+        public StrongSymbol( Node classNode )
         {
             Class = classNode;
         }
 
-        public StrongSymbol(Node classNode, Node prop)
+        public StrongSymbol( Node classNode, Node prop )
         {
             Class = classNode;
             Prop = prop;
         }
     }
 
-    class WeakSymbol(string ident) : Symbol
+    class WeakSymbol( string ident ) : Symbol
     {
         public string Identifier { get; set; } = ident;
     }
@@ -38,11 +38,11 @@ namespace SteamLanguageParser
             @"(?<class>[a-zA-Z0-9_]*?)::(?<name>[a-zA-Z0-9_]*)";
 
         // single level
-        private static Node FindNode(Node tree, string symbol)
+        private static Node FindNode( Node tree, string symbol )
         {
-            foreach (Node child in tree.ChildNodes)
+            foreach ( Node child in tree.ChildNodes )
             {
-                if (child.Name == symbol)
+                if ( child.Name == symbol )
                 {
                     return child;
                 }
@@ -51,57 +51,57 @@ namespace SteamLanguageParser
             return null;
         }
 
-        public static Symbol LookupSymbol(Node tree, string identifier, bool strongonly)
+        public static Symbol LookupSymbol( Node tree, string identifier, bool strongonly )
         {
-            Match ident = IdentifierRegex().Match(identifier);
+            Match ident = IdentifierRegex().Match( identifier );
 
-            if (!ident.Success)
+            if ( !ident.Success )
             {
-                throw new Exception("Invalid identifier specified " + identifier);
+                throw new Exception( "Invalid identifier specified " + identifier );
             }
 
-            if (!identifier.Contains("::", StringComparison.Ordinal))
+            if ( !identifier.Contains( "::", StringComparison.Ordinal ) )
             {
-                Node classNode = FindNode(tree, ident.Captures[0].Value);
+                Node classNode = FindNode( tree, ident.Captures[ 0 ].Value );
 
-                if (classNode == null)
+                if ( classNode == null )
                 {
-                    if (strongonly)
+                    if ( strongonly )
                     {
-                        throw new Exception("Invalid weak symbol " + identifier);
+                        throw new Exception( "Invalid weak symbol " + identifier );
                     }
                     else
                     {
-                        return new WeakSymbol(identifier);
+                        return new WeakSymbol( identifier );
                     }
                 }
                 else
                 {
-                    return new StrongSymbol(classNode);
+                    return new StrongSymbol( classNode );
                 }
             }
             else
             {
-                ident = FullIdentRegex().Match(identifier);
+                ident = FullIdentRegex().Match( identifier );
 
-                if (!ident.Success)
+                if ( !ident.Success )
                 {
-                    throw new Exception("Couldn't parse full identifier");
+                    throw new Exception( "Couldn't parse full identifier" );
                 }
 
-                Node classNode = FindNode(tree, ident.Groups["class"].Value) ?? throw new Exception("Invalid class in identifier " + identifier);
-                Node propNode = FindNode(classNode, ident.Groups["name"].Value) ?? throw new Exception("Invalid property in identifier " + identifier);
+                Node classNode = FindNode( tree, ident.Groups[ "class" ].Value ) ?? throw new Exception( "Invalid class in identifier " + identifier );
+                Node propNode = FindNode( classNode, ident.Groups[ "name" ].Value ) ?? throw new Exception( "Invalid property in identifier " + identifier );
 
-                return new StrongSymbol(classNode, propNode);
+                return new StrongSymbol( classNode, propNode );
             }
 
-            throw new Exception("Invalid symbol");
+            throw new Exception( "Invalid symbol" );
         }
 
-        [GeneratedRegex(identifierPattern, RegexOptions.Compiled)]
+        [GeneratedRegex( identifierPattern, RegexOptions.Compiled )]
         private static partial Regex IdentifierRegex();
 
-        [GeneratedRegex(fullIdentPattern, RegexOptions.Compiled)]
+        [GeneratedRegex( fullIdentPattern, RegexOptions.Compiled )]
         private static partial Regex FullIdentRegex();
     }
 }

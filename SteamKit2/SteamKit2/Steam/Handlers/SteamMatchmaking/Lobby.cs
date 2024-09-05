@@ -330,7 +330,7 @@ namespace SteamKit2
             static readonly ReadOnlyDictionary<string, string> EmptyMetadata =
                 new( new Dictionary<string, string>() );
 
-            static readonly IReadOnlyList<Member> EmptyMembers = Array.AsReadOnly(Array.Empty<Member>());
+            static readonly IReadOnlyList<Member> EmptyMembers = Array.AsReadOnly( Array.Empty<Member>() );
 
             internal Lobby( SteamID steamId, ELobbyType lobbyType, int lobbyFlags, SteamID? ownerSteamId, IReadOnlyDictionary<string, string>? metadata,
                 int maxMembers, int numMembers, IReadOnlyList<Member>? members, float? distance, long? weight )
@@ -385,7 +385,7 @@ namespace SteamKit2
 
                 foreach ( var value in keyValue.Children )
                 {
-                    if (value.Name is null || value.Value is null)
+                    if ( value.Name is null || value.Value is null )
                     {
                         continue;
                     }

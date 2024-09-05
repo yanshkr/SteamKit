@@ -82,7 +82,7 @@ namespace SteamKit2
             }
 
             asyncJob.SetFailed( dueToRemoteFailure: true );
-            
+
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace SteamKit2
                 {
                     job.SetFailed( dueToRemoteFailure: false );
 
-                    asyncJobs.TryRemove( job, out _);
+                    asyncJobs.TryRemove( job, out _ );
                 }
             }
         }

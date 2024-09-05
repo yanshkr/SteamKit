@@ -12,8 +12,8 @@ namespace Tests
         {
             originalOutWriter = Console.Out;
             sb = new StringBuilder();
-            writer = new StringWriter(sb);
-            Console.SetOut(writer);
+            writer = new StringWriter( sb );
+            Console.SetOut( writer );
         }
 
         readonly StringBuilder sb;
@@ -24,17 +24,17 @@ namespace Tests
         public void WritesOutputToConsole()
         {
             var listener = new SimpleConsoleDebugListener();
-            listener.WriteLine("some cat", "a message");
+            listener.WriteLine( "some cat", "a message" );
             writer.Flush();
 
-            Assert.Equal("[some cat]: a message", sb.ToString().TrimEnd());
+            Assert.Equal( "[some cat]: a message", sb.ToString().TrimEnd() );
         }
 
         public void Dispose()
         {
-            Console.SetOut(originalOutWriter);
+            Console.SetOut( originalOutWriter );
             writer.Dispose();
-            GC.SuppressFinalize(this);
+            GC.SuppressFinalize( this );
         }
     }
 }

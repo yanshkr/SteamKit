@@ -108,7 +108,7 @@ namespace SteamKit2
 
                 JobID = infoResponse.TargetJobID;
 
-                Result = (EResult)msg.eresult;
+                Result = ( EResult )msg.eresult;
 
                 AppID = msg.app_id;
                 FileName = msg.file_name;
@@ -141,7 +141,7 @@ namespace SteamKit2
 
                 JobID = shareResponse.TargetJobID;
 
-                Result = (EResult)msg.eresult;
+                Result = ( EResult )msg.eresult;
 
                 UGCId = msg.hcontent;
             }

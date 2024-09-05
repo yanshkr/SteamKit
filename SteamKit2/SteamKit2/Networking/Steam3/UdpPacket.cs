@@ -43,13 +43,13 @@ namespace SteamKit2
         /// Header is populated from the MemoryStream
         /// </summary>
         /// <param name="ms">The stream containing the packet and it's payload data.</param>
-        public UdpPacket(MemoryStream ms)
+        public UdpPacket( MemoryStream ms )
         {
             Header = new UdpHeader();
 
             try
             {
-                Header.Deserialize(ms);
+                Header.Deserialize( ms );
             }
             catch ( Exception )
             {
@@ -73,7 +73,7 @@ namespace SteamKit2
         /// Header must be populated manually.
         /// </summary>
         /// <param name="type">The type.</param>
-        public UdpPacket(EUdpPacketType type)
+        public UdpPacket( EUdpPacketType type )
         {
             this.Header = new UdpHeader();
             this.Payload = new MemoryStream();
@@ -89,10 +89,10 @@ namespace SteamKit2
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="payload">The payload.</param>
-        public UdpPacket(EUdpPacketType type, MemoryStream payload)
-            : this(type)
+        public UdpPacket( EUdpPacketType type, MemoryStream payload )
+            : this( type )
         {
-            SetPayload(payload);
+            SetPayload( payload );
         }
 
         /// <summary>
@@ -104,19 +104,19 @@ namespace SteamKit2
         /// <param name="type">The type.</param>
         /// <param name="payload">The payload.</param>
         /// <param name="length">The length.</param>
-        public UdpPacket(EUdpPacketType type, MemoryStream payload, long length)
-            : this(type)
+        public UdpPacket( EUdpPacketType type, MemoryStream payload, long length )
+            : this( type )
         {
-            SetPayload(payload, length);
+            SetPayload( payload, length );
         }
 
         /// <summary>
         /// Sets the payload
         /// </summary>
         /// <param name="ms">The payload to copy.</param>
-        public void SetPayload(MemoryStream ms)
+        public void SetPayload( MemoryStream ms )
         {
-            SetPayload(ms, ms.Length - ms.Position);
+            SetPayload( ms, ms.Length - ms.Position );
         }
 
         /// <summary>
@@ -124,12 +124,12 @@ namespace SteamKit2
         /// </summary>
         /// <param name="ms">The payload.</param>
         /// <param name="length">The length.</param>
-        public void SetPayload(MemoryStream ms, long length)
+        public void SetPayload( MemoryStream ms, long length )
         {
             Payload = GetPayloadAndUpdateHeader( ms, length, Header );
         }
 
-        static MemoryStream GetPayloadAndUpdateHeader(MemoryStream ms, long length, UdpHeader header)
+        static MemoryStream GetPayloadAndUpdateHeader( MemoryStream ms, long length, UdpHeader header )
         {
             if ( length > MAX_PAYLOAD )
                 throw new ArgumentException( "Payload length exceeds 0x4DC maximum" );

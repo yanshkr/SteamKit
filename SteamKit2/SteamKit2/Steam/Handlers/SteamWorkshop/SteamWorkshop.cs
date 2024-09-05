@@ -4,7 +4,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using SteamKit2.Internal;
 
 namespace SteamKit2
@@ -50,7 +49,7 @@ namespace SteamKit2
             /// </value>
             public EWorkshopFileAction UserAction { get; set; }
         }
-        
+
         /// <summary>
         /// Enumerates the list of published files for the current logged in user based on user action.
         /// Results are returned in a <see cref="UserActionPublishedFilesCallback"/>.

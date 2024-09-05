@@ -157,7 +157,7 @@ namespace Tests
                 message = msg;
             } );
 
-            var client = new SteamClient("My Custom Client");
+            var client = new SteamClient( "My Custom Client" );
             client.LogDebug( "MyCategory", "My {0}st message", 1 );
             Assert.Equal( "My Custom Client/MyCategory", category );
             Assert.Equal( "My 1st message", message );

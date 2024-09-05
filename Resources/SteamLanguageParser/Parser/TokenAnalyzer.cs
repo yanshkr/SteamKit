@@ -47,72 +47,72 @@ namespace SteamLanguageParser
 
     class TokenAnalyzer
     {
-        public static Node Analyze(Queue<Token> tokens)
+        public static Node Analyze( Queue<Token> tokens )
         {
             Node root = new Node();
 
-            while (tokens.Count > 0)
+            while ( tokens.Count > 0 )
             {
                 Token cur = tokens.Dequeue();
 
-                switch (cur.Name)
+                switch ( cur.Name )
                 {
                     case "EOF":
                         break;
                     case "preprocess":
-                        Token text = Expect(tokens, "string");
+                        Token text = Expect( tokens, "string" );
 
-                        if (cur.Value == "import")
+                        if ( cur.Value == "import" )
                         {
-                            Queue<Token> parentTokens = LanguageParser.TokenizeString(File.ReadAllText(text.Value), text.Value);
+                            Queue<Token> parentTokens = LanguageParser.TokenizeString( File.ReadAllText( text.Value ), text.Value );
 
-                            Node newRoot = Analyze(parentTokens);
+                            Node newRoot = Analyze( parentTokens );
 
-                            foreach (Node child in newRoot.ChildNodes)
+                            foreach ( Node child in newRoot.ChildNodes )
                             {
-                                root.ChildNodes.Add(child);
+                                root.ChildNodes.Add( child );
                             }
                         }
                         break;
                     case "identifier":
-                        switch (cur.Value)
+                        switch ( cur.Value )
                         {
                             case "class":
                                 {
-                                    Token name = Expect(tokens, "identifier");
+                                    Token name = Expect( tokens, "identifier" );
                                     Token ident = null, parent = null;
 
-                                    Token op1 = Optional(tokens, "operator", "<");
-                                    if (op1 != null)
+                                    Token op1 = Optional( tokens, "operator", "<" );
+                                    if ( op1 != null )
                                     {
-                                        ident = Expect(tokens, "identifier");
-                                        Expect(tokens, "operator", ">");
+                                        ident = Expect( tokens, "identifier" );
+                                        Expect( tokens, "operator", ">" );
                                     }
 
-                                    Token expect = Optional(tokens, "identifier", "expects");
-                                    if (expect != null)
+                                    Token expect = Optional( tokens, "identifier", "expects" );
+                                    if ( expect != null )
                                     {
-                                        parent = Expect(tokens, "identifier");
+                                        parent = Expect( tokens, "identifier" );
                                     }
 
-                                    Token removed = Optional(tokens, "identifier", "removed");
+                                    Token removed = Optional( tokens, "identifier", "removed" );
 
                                     ClassNode cnode = new ClassNode
                                     {
                                         Name = name.Value
                                     };
 
-                                    if (ident != null)
+                                    if ( ident != null )
                                     {
-                                        cnode.Ident = SymbolLocator.LookupSymbol(root, ident.Value, false);
+                                        cnode.Ident = SymbolLocator.LookupSymbol( root, ident.Value, false );
                                     }
 
-                                    if (parent != null)
+                                    if ( parent != null )
                                     {
                                         //cnode.Parent = SymbolLocator.LookupSymbol(root, parent.Value, true);
                                     }
 
-                                    if (removed != null)
+                                    if ( removed != null )
                                     {
                                         cnode.Emit = false;
                                     }
@@ -121,42 +121,42 @@ namespace SteamLanguageParser
                                         cnode.Emit = true;
                                     }
 
-                                    root.ChildNodes.Add(cnode);
-                                    ParseInnerScope(tokens, cnode, root);
+                                    root.ChildNodes.Add( cnode );
+                                    ParseInnerScope( tokens, cnode, root );
                                 }
                                 break;
                             case "enum":
                                 {
-                                    Token name = Expect(tokens, "identifier");
+                                    Token name = Expect( tokens, "identifier" );
                                     Token datatype = null;
 
-                                    Token op1 = Optional(tokens, "operator", "<");
-                                    if (op1 != null)
+                                    Token op1 = Optional( tokens, "operator", "<" );
+                                    if ( op1 != null )
                                     {
-                                        datatype = Expect(tokens, "identifier");
-                                        Expect(tokens, "operator", ">");
+                                        datatype = Expect( tokens, "identifier" );
+                                        Expect( tokens, "operator", ">" );
                                     }
 
-                                    Token flag = Optional(tokens, "identifier", "flags");
+                                    Token flag = Optional( tokens, "identifier", "flags" );
 
                                     EnumNode enode = new EnumNode
                                     {
                                         Name = name.Value
                                     };
 
-                                    if (flag != null)
+                                    if ( flag != null )
                                     {
                                         enode.Flags = flag.Value;
                                     }
 
-                                    if (datatype != null)
+                                    if ( datatype != null )
                                     {
-                                        enode.Type = SymbolLocator.LookupSymbol(root, datatype.Value, false);
+                                        enode.Type = SymbolLocator.LookupSymbol( root, datatype.Value, false );
                                     }
 
 
-                                    root.ChildNodes.Add(enode);
-                                    ParseInnerScope(tokens, enode, root);
+                                    root.ChildNodes.Add( enode );
+                                    ParseInnerScope( tokens, enode, root );
                                 }
                                 break;
                         }
@@ -167,85 +167,85 @@ namespace SteamLanguageParser
             return root;
         }
 
-        private static void ParseInnerScope(Queue<Token> tokens, Node parent, Node root)
+        private static void ParseInnerScope( Queue<Token> tokens, Node parent, Node root )
         {
-            Expect(tokens, "operator", "{");
-            Token scope2 = Optional(tokens, "operator", "}");
+            Expect( tokens, "operator", "{" );
+            Token scope2 = Optional( tokens, "operator", "}" );
 
-            while (scope2 == null)
+            while ( scope2 == null )
             {
                 PropNode pnode = new PropNode();
 
                 Token t1 = tokens.Dequeue();
 
-                Token t1op1 = Optional(tokens, "operator", "<");
+                Token t1op1 = Optional( tokens, "operator", "<" );
 
-                if (t1op1 != null)
+                if ( t1op1 != null )
                 {
-                    var flagop = Expect(tokens, "identifier");
-                    Expect(tokens, "operator", ">");
+                    var flagop = Expect( tokens, "identifier" );
+                    Expect( tokens, "operator", ">" );
 
                     pnode.FlagsOpt = flagop.Value;
                 }
 
-                Token t2 = Optional(tokens, "identifier");
-                Token t3 = Optional(tokens, "identifier");
+                Token t2 = Optional( tokens, "identifier" );
+                Token t3 = Optional( tokens, "identifier" );
 
-                if (t3 != null)
+                if ( t3 != null )
                 {
                     pnode.Name = t3.Value;
-                    pnode.Type = SymbolLocator.LookupSymbol(root, t2.Value, false);
+                    pnode.Type = SymbolLocator.LookupSymbol( root, t2.Value, false );
                     pnode.Flags = t1.Value;
                 }
-                else if (t2 != null)
+                else if ( t2 != null )
                 {
                     pnode.Name = t2.Value;
-                    pnode.Type = SymbolLocator.LookupSymbol(root, t1.Value, false);
+                    pnode.Type = SymbolLocator.LookupSymbol( root, t1.Value, false );
                 }
                 else
                 {
                     pnode.Name = t1.Value;
                 }
 
-                Token defop = Optional(tokens, "operator", "=");
+                Token defop = Optional( tokens, "operator", "=" );
 
-                if (defop != null)
+                if ( defop != null )
                 {
-                    while (true)
+                    while ( true )
                     {
                         Token value = tokens.Dequeue();
-                        pnode.Default.Add(SymbolLocator.LookupSymbol(root, value.Value, false));
+                        pnode.Default.Add( SymbolLocator.LookupSymbol( root, value.Value, false ) );
 
-                        if (Optional(tokens, "operator", "|") != null)
+                        if ( Optional( tokens, "operator", "|" ) != null )
                         {
                             continue;
                         }
 
-                        Expect(tokens, "terminator", ";");
+                        Expect( tokens, "terminator", ";" );
                         break;
                     }
                 }
                 else
                 {
-                    Expect(tokens, "terminator", ";");
+                    Expect( tokens, "terminator", ";" );
                 }
 
-                Token obsolete = Optional(tokens, "identifier", "obsolete");
-                if (obsolete != null)
+                Token obsolete = Optional( tokens, "identifier", "obsolete" );
+                if ( obsolete != null )
                 {
                     // Obsolete identifiers are output when generating the language, but include a warning
                     pnode.Obsolete = "";
 
-                    Token obsoleteReason = Optional(tokens, "string");
+                    Token obsoleteReason = Optional( tokens, "string" );
 
-                    if (obsoleteReason != null)
+                    if ( obsoleteReason != null )
                     {
                         pnode.Obsolete = obsoleteReason.Value;
                     }
                 }
 
-                Token removed = Optional(tokens, "identifier", "removed");
-                if (removed != null)
+                Token removed = Optional( tokens, "identifier", "removed" );
+                if ( removed != null )
                 {
                     // Removed identifiers are not output when generating the language
                     pnode.Emit = false;
@@ -253,72 +253,72 @@ namespace SteamLanguageParser
                     // Consume and record the removed reason so it's available in the node graph
                     pnode.Removed = "";
 
-                    Token removedReason = Optional(tokens, "string");
+                    Token removedReason = Optional( tokens, "string" );
 
-                    if (removedReason != null)
+                    if ( removedReason != null )
                     {
                         pnode.Removed = removedReason.Value;
                     }
                 }
 
-                parent.ChildNodes.Add(pnode);
+                parent.ChildNodes.Add( pnode );
 
-                scope2 = Optional(tokens, "operator", "}");
+                scope2 = Optional( tokens, "operator", "}" );
             }
         }
 
-        private static Token Expect(Queue<Token> tokens, string name)
+        private static Token Expect( Queue<Token> tokens, string name )
         {
             Token peek = tokens.Peek();
 
-            if (peek == null)
+            if ( peek == null )
             {
-                return new Token("EOF", "");
+                return new Token( "EOF", "" );
             }
 
-            if (peek.Name != name)
+            if ( peek.Name != name )
             {
-                throw new Exception("Expecting " + name);
+                throw new Exception( "Expecting " + name );
             }
 
             return tokens.Dequeue();
         }
 
-        private static Token Expect(Queue<Token> tokens, string name, string value)
+        private static Token Expect( Queue<Token> tokens, string name, string value )
         {
             Token peek = tokens.Peek();
 
-            if (peek == null)
+            if ( peek == null )
             {
-                return new Token("EOF", "");
+                return new Token( "EOF", "" );
             }
 
-            if (peek.Name != name || peek.Value != value)
+            if ( peek.Name != name || peek.Value != value )
             {
-                if (peek.Source.HasValue)
+                if ( peek.Source.HasValue )
                 {
                     var source = peek.Source.Value;
-                    throw new Exception($"Expecting {name} '{value}', but got '{peek.Value}' at {source.FileName} {source.StartLineNumber},{source.StartColumnNumber}-{source.EndLineNumber},{source.EndColumnNumber}");
+                    throw new Exception( $"Expecting {name} '{value}', but got '{peek.Value}' at {source.FileName} {source.StartLineNumber},{source.StartColumnNumber}-{source.EndLineNumber},{source.EndColumnNumber}" );
                 }
                 else
                 {
-                    throw new Exception("Expecting " + name + " '" + value + "', but got '" + peek.Value + "'");
+                    throw new Exception( "Expecting " + name + " '" + value + "', but got '" + peek.Value + "'" );
                 }
             }
 
             return tokens.Dequeue();
         }
 
-        private static Token Optional(Queue<Token> tokens, string name)
+        private static Token Optional( Queue<Token> tokens, string name )
         {
             Token peek = tokens.Peek();
 
-            if (peek == null)
+            if ( peek == null )
             {
-                return new Token("EOF", "");
+                return new Token( "EOF", "" );
             }
 
-            if (peek.Name != name)
+            if ( peek.Name != name )
             {
                 return null;
             }
@@ -326,16 +326,16 @@ namespace SteamLanguageParser
             return tokens.Dequeue();
         }
 
-        private static Token Optional(Queue<Token> tokens, string name, string value)
+        private static Token Optional( Queue<Token> tokens, string name, string value )
         {
             Token peek = tokens.Peek();
 
-            if (peek == null)
+            if ( peek == null )
             {
-                return new Token("EOF", "");
+                return new Token( "EOF", "" );
             }
 
-            if (peek.Name != name || peek.Value != value)
+            if ( peek.Name != name || peek.Value != value )
             {
                 return null;
             }

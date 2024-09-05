@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
@@ -25,8 +24,8 @@ namespace SteamKit2
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
         /// <param name="response">HTTP response message including the status code and data.</param>
-        public SteamKitWebRequestException(string message, HttpResponseMessage response)
-            : base(message, null, response.StatusCode)
+        public SteamKitWebRequestException( string message, HttpResponseMessage response )
+            : base( message, null, response.StatusCode )
         {
             this.Headers = response.Headers;
         }

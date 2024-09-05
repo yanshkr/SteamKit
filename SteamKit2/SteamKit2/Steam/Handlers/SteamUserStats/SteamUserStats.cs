@@ -5,8 +5,6 @@
 
 
 
-using System;
-using System.Collections.Generic;
 using SteamKit2.Internal;
 
 namespace SteamKit2

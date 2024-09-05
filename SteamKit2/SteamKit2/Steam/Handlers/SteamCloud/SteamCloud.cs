@@ -6,7 +6,6 @@
 
 
 using System;
-using System.Collections.Generic;
 using SteamKit2.Internal;
 
 namespace SteamKit2
@@ -55,13 +54,13 @@ namespace SteamKit2
         /// <returns>The Job ID of the request. This can be used to find the appropriate <see cref="SingleFileInfoCallback"/>.</returns>
         public AsyncJob<SingleFileInfoCallback> GetSingleFileInfo( uint appid, string filename )
         {
-            var request = new ClientMsgProtobuf<CMsgClientUFSGetSingleFileInfo> (EMsg.ClientUFSGetSingleFileInfo );
+            var request = new ClientMsgProtobuf<CMsgClientUFSGetSingleFileInfo>( EMsg.ClientUFSGetSingleFileInfo );
             request.SourceJobID = Client.GetNextJobID();
 
             request.Body.app_id = appid;
             request.Body.file_name = filename;
 
-            this.Client.Send(request);
+            this.Client.Send( request );
 
             return new AsyncJob<SingleFileInfoCallback>( this.Client, request.SourceJobID );
         }
@@ -76,13 +75,13 @@ namespace SteamKit2
         /// <returns>The Job ID of the request. This can be used to find the appropriate <see cref="ShareFileCallback"/>.</returns>
         public AsyncJob<ShareFileCallback> ShareFile( uint appid, string filename )
         {
-            var request = new ClientMsgProtobuf<CMsgClientUFSShareFile>(EMsg.ClientUFSShareFile);
+            var request = new ClientMsgProtobuf<CMsgClientUFSShareFile>( EMsg.ClientUFSShareFile );
             request.SourceJobID = Client.GetNextJobID();
 
             request.Body.app_id = appid;
             request.Body.file_name = filename;
 
-            this.Client.Send(request);
+            this.Client.Send( request );
 
             return new AsyncJob<ShareFileCallback>( this.Client, request.SourceJobID );
         }

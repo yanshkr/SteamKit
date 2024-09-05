@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using SteamKit2;
 using Xunit;
 
 namespace Tests

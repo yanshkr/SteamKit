@@ -71,11 +71,11 @@ namespace SteamKit2
         /// <param name="nAppID">The base app id of the mod.</param>
         /// <param name="modPath">The game folder name of the mod.</param>
         public GameID( uint nAppID, string modPath )
-            : this(0)
+            : this( 0 )
         {
             AppID = nAppID;
             AppType = GameType.GameMod;
-            ModID = Crc32.HashToUInt32(System.Text.Encoding.UTF8.GetBytes(modPath));
+            ModID = Crc32.HashToUInt32( System.Text.Encoding.UTF8.GetBytes( modPath ) );
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="GameID"/> class.
@@ -83,17 +83,17 @@ namespace SteamKit2
         /// <param name="exePath">The path to the executable, usually quoted.</param>
         /// <param name="appName">The name of the application shortcut.</param>
         public GameID( string exePath, string appName )
-            : this(0)
+            : this( 0 )
         {
             string combined = string.Empty;
-            if (exePath != null)
+            if ( exePath != null )
                 combined += exePath;
-            if (appName != null)
+            if ( appName != null )
                 combined += appName;
 
             AppID = 0;
             AppType = GameType.Shortcut;
-            ModID = Crc32.HashToUInt32(System.Text.Encoding.UTF8.GetBytes(combined));
+            ModID = Crc32.HashToUInt32( System.Text.Encoding.UTF8.GetBytes( combined ) );
         }
 
 

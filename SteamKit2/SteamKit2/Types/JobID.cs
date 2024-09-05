@@ -47,7 +47,7 @@ namespace SteamKit2
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        public static implicit operator ulong ( JobID jobId )
+        public static implicit operator ulong( JobID jobId )
         {
             ArgumentNullException.ThrowIfNull( jobId );
 
@@ -204,7 +204,7 @@ namespace SteamKit2
             ArgumentNullException.ThrowIfNull( callback );
 
             // we're complete with just this callback
-            tcs.TrySetResult( (T)callback );
+            tcs.TrySetResult( ( T )callback );
 
             // inform steamclient that this job wishes to be removed from tracking since we've received the single callback we were waiting for
             return true;
@@ -229,7 +229,7 @@ namespace SteamKit2
                 // if we time out, we trigger a normal cancellation
                 tcs.TrySetCanceled();
             }
-            
+
         }
     }
 
@@ -314,7 +314,7 @@ namespace SteamKit2
         {
             ArgumentNullException.ThrowIfNull( callback );
 
-            T callbackMsg = (T)callback;
+            T callbackMsg = ( T )callback;
 
             // add this callback to our result set
             results.Add( callbackMsg );

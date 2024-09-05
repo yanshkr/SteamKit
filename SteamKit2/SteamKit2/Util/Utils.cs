@@ -29,15 +29,15 @@ namespace SteamKit2
             return a | ( b << 16 );
         }
 
-        public static string EncodeHexString(byte[] input)
+        public static string EncodeHexString( byte[] input )
         {
-            return Convert.ToHexString(input).ToLowerInvariant();
+            return Convert.ToHexString( input ).ToLowerInvariant();
         }
 
         [return: NotNullIfNotNull( nameof( hex ) )]
-        public static byte[]? DecodeHexString(string? hex)
+        public static byte[]? DecodeHexString( string? hex )
         {
-            if (hex == null)
+            if ( hex == null )
                 return null;
 
             return Convert.FromHexString( hex );
@@ -151,7 +151,7 @@ namespace SteamKit2
         public static T[] GetAttributes<T>( this Type type, bool inherit = false )
             where T : Attribute
         {
-            return (T[])type.GetTypeInfo().GetCustomAttributes( typeof( T ), inherit );
+            return ( T[] )type.GetTypeInfo().GetCustomAttributes( typeof( T ), inherit );
         }
     }
 }

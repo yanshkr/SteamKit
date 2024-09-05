@@ -397,7 +397,7 @@ namespace SteamKit2
             internal VanityURLChangedCallback( IPacketMsg packetMsg )
             {
                 var vanityUrl = new ClientMsgProtobuf<CMsgClientVanityURLChangedNotification>( packetMsg );
-                
+
                 this.JobID = vanityUrl.TargetJobID;
                 this.VanityURL = vanityUrl.Body.vanity_url;
             }

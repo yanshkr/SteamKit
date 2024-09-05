@@ -25,7 +25,7 @@ namespace SteamKit2
             {
                 AllowDirectoryFetch = true,
 
-                ConnectionTimeout = TimeSpan.FromSeconds(5),
+                ConnectionTimeout = TimeSpan.FromSeconds( 5 ),
 
                 DefaultPersonaStateFlags =
                     EClientPersonaStateFlag.PlayerName | EClientPersonaStateFlag.Presence |
@@ -49,77 +49,77 @@ namespace SteamKit2
         SteamConfigurationState state;
 
         public SteamConfiguration Build()
-            => new(state);
+            => new( state );
 
-        public ISteamConfigurationBuilder WithCellID(uint cellID)
+        public ISteamConfigurationBuilder WithCellID( uint cellID )
         {
             state.CellID = cellID;
             return this;
         }
 
-        public ISteamConfigurationBuilder WithConnectionTimeout(TimeSpan connectionTimeout)
+        public ISteamConfigurationBuilder WithConnectionTimeout( TimeSpan connectionTimeout )
         {
             state.ConnectionTimeout = connectionTimeout;
             return this;
         }
 
-        public ISteamConfigurationBuilder WithDefaultPersonaStateFlags(EClientPersonaStateFlag personaStateFlags)
+        public ISteamConfigurationBuilder WithDefaultPersonaStateFlags( EClientPersonaStateFlag personaStateFlags )
         {
             state.DefaultPersonaStateFlags = personaStateFlags;
             return this;
         }
 
-        public ISteamConfigurationBuilder WithDirectoryFetch(bool allowDirectoryFetch)
+        public ISteamConfigurationBuilder WithDirectoryFetch( bool allowDirectoryFetch )
         {
             state.AllowDirectoryFetch = allowDirectoryFetch;
             return this;
         }
 
-        public ISteamConfigurationBuilder WithHttpClientFactory(HttpClientFactory factoryFunction)
+        public ISteamConfigurationBuilder WithHttpClientFactory( HttpClientFactory factoryFunction )
         {
             state.HttpClientFactory = factoryFunction;
             return this;
         }
 
-        public ISteamConfigurationBuilder WithMachineInfoProvider(IMachineInfoProvider machineInfoProvider)
+        public ISteamConfigurationBuilder WithMachineInfoProvider( IMachineInfoProvider machineInfoProvider )
         {
             state.MachineInfoProvider = machineInfoProvider;
             return this;
         }
 
-        public ISteamConfigurationBuilder WithProxy(IWebProxy proxy)
+        public ISteamConfigurationBuilder WithProxy( IWebProxy proxy )
         {
             state.Proxy = proxy;
             return this;
         }
 
-        public ISteamConfigurationBuilder WithProtocolTypes(ProtocolTypes protocolTypes)
+        public ISteamConfigurationBuilder WithProtocolTypes( ProtocolTypes protocolTypes )
         {
             state.ProtocolTypes = protocolTypes;
             return this;
         }
 
-        public ISteamConfigurationBuilder WithServerListProvider(IServerListProvider provider)
+        public ISteamConfigurationBuilder WithServerListProvider( IServerListProvider provider )
         {
-            state.ServerListProvider = provider ?? throw new ArgumentNullException(nameof(provider));
+            state.ServerListProvider = provider ?? throw new ArgumentNullException( nameof( provider ) );
             return this;
         }
 
-        public ISteamConfigurationBuilder WithUniverse(EUniverse universe)
+        public ISteamConfigurationBuilder WithUniverse( EUniverse universe )
         {
             state.Universe = universe;
             return this;
         }
 
-        public ISteamConfigurationBuilder WithWebAPIBaseAddress(Uri baseAddress)
+        public ISteamConfigurationBuilder WithWebAPIBaseAddress( Uri baseAddress )
         {
-            state.WebAPIBaseAddress = baseAddress ?? throw new ArgumentNullException(nameof(baseAddress));
+            state.WebAPIBaseAddress = baseAddress ?? throw new ArgumentNullException( nameof( baseAddress ) );
             return this;
         }
 
-        public ISteamConfigurationBuilder WithWebAPIKey(string webApiKey)
+        public ISteamConfigurationBuilder WithWebAPIKey( string webApiKey )
         {
-            state.WebAPIKey = webApiKey ?? throw new ArgumentNullException(nameof(webApiKey));
+            state.WebAPIKey = webApiKey ?? throw new ArgumentNullException( nameof( webApiKey ) );
             return this;
         }
 
@@ -127,8 +127,8 @@ namespace SteamKit2
         {
             var client = new HttpClient();
 
-            var assemblyVersion = typeof(SteamConfiguration).Assembly.GetName().Version?.ToString(fieldCount: 3) ?? "UnknownVersion";
-            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("SteamKit", assemblyVersion));
+            var assemblyVersion = typeof( SteamConfiguration ).Assembly.GetName().Version?.ToString( fieldCount: 3 ) ?? "UnknownVersion";
+            client.DefaultRequestHeaders.UserAgent.Add( new ProductInfoHeaderValue( "SteamKit", assemblyVersion ) );
             return client;
         }
     }

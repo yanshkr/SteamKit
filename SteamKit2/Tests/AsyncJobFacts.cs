@@ -76,7 +76,7 @@ namespace Tests
             Task<Callback> asyncTask = asyncJob.ToTask();
 
             asyncJob.SetFailed( dueToRemoteFailure: false );
-            
+
             Assert.True( asyncTask.IsCompleted, "Async job should be completed on message timeout" );
             Assert.True( asyncTask.IsCanceled, "Async job should be canceled on message timeout" );
             Assert.False( asyncTask.IsFaulted, "Async job should not be faulted on message timeout" );

@@ -32,7 +32,7 @@ namespace SteamKit2
             // first 16 bytes of input is the ECB encrypted IV
             Span<byte> iv = stackalloc byte[ 16 ];
             aes.DecryptEcb( input[ ..iv.Length ], iv, PaddingMode.None );
-            
+
             return aes.DecryptCbc( input[ iv.Length.. ], iv, PaddingMode.PKCS7 );
         }
     }

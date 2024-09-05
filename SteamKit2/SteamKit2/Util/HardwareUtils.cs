@@ -81,18 +81,33 @@ namespace SteamKit2
         }
     }
 
-    sealed class RandomMachineInfoProvider : IMachineInfoProvider
+    /// <summary>
+    /// Machine info provider that generates random data.
+    /// </summary>
+    public sealed class RandomMachineInfoProvider : IMachineInfoProvider
     {
+        /// <summary>
+        /// Gets a random machine guid.
+        /// </summary>
+        /// <returns>A random machine guid.</returns>
         public byte[] GetMachineGuid()
         {
             return Encoding.UTF8.GetBytes( Guid.NewGuid().ToString() );
         }
 
+        /// <summary>
+        /// Gets a random mac address.
+        /// </summary>
+        /// <returns>A random mac address.</returns>
         public byte[] GetMacAddress()
         {
             return Encoding.UTF8.GetBytes( SpoofUtils.GetRandomMacAddress() );
         }
 
+        /// <summary>
+        /// Gets a random disk id.
+        /// </summary>
+        /// <returns>A random disk id.</returns>
         public byte[] GetDiskId()
         {
             return Encoding.UTF8.GetBytes( SpoofUtils.RandomDiskSerialNumber() );
@@ -145,11 +160,11 @@ namespace SteamKit2
                 .Select( networkInterface => networkInterface.GetPhysicalAddress().GetAddressBytes()
                     //pad all found mac addresses to 8 bytes
                     .Append( ( byte )0 )
-                    .Append( ( byte )0 ) 
+                    .Append( ( byte )0 )
                 )
                 //add fallbacks in case less than 2 adapters are found
-                .Append( Enumerable.Repeat( ( byte )0, 8 ))
-                .Append( Enumerable.Repeat( ( byte )0, 8 ))
+                .Append( Enumerable.Repeat( ( byte )0, 8 ) )
+                .Append( Enumerable.Repeat( ( byte )0, 8 ) )
                 .Take( 2 )
                 .SelectMany( b => b )
                 .ToArray();
@@ -226,7 +241,7 @@ namespace SteamKit2
 
             if ( diskUuids.Length > 0 )
             {
-                return Encoding.UTF8.GetBytes( diskUuids[0] );
+                return Encoding.UTF8.GetBytes( diskUuids[ 0 ] );
             }
 
             return null;
@@ -299,7 +314,7 @@ namespace SteamKit2
                 }
                 finally
                 {
-                    _ =  IOObjectRelease( platformExpert );
+                    _ = IOObjectRelease( platformExpert );
                 }
             }
 
@@ -341,52 +356,52 @@ namespace SteamKit2
             public MachineID()
                 : base()
             {
-                this.KeyValues["BB3"] = new KeyValue();
-                this.KeyValues["FF2"] = new KeyValue();
-                this.KeyValues["3B3"] = new KeyValue();
+                this.KeyValues[ "BB3" ] = new KeyValue();
+                this.KeyValues[ "FF2" ] = new KeyValue();
+                this.KeyValues[ "3B3" ] = new KeyValue();
             }
 
 
             public void SetBB3( string value )
             {
-                this.KeyValues["BB3"].Value = value;
+                this.KeyValues[ "BB3" ].Value = value;
             }
 
             public void SetFF2( string value )
             {
-                this.KeyValues["FF2"].Value = value;
+                this.KeyValues[ "FF2" ].Value = value;
             }
 
             public void Set3B3( string value )
             {
-                this.KeyValues["3B3"].Value = value;
+                this.KeyValues[ "3B3" ].Value = value;
             }
 
             public void Set333( string value )
             {
-                this.KeyValues["333"] = new KeyValue( value: value );
+                this.KeyValues[ "333" ] = new KeyValue( value: value );
             }
         }
 
         static ConditionalWeakTable<IMachineInfoProvider, Task<MachineID>> generationTable = [];
 
-        public static void Init(IMachineInfoProvider machineInfoProvider)
+        public static void Init( IMachineInfoProvider machineInfoProvider )
         {
-            lock (machineInfoProvider)
+            lock ( machineInfoProvider )
             {
-                _ = generationTable.GetValue(machineInfoProvider, p => Task.Factory.StartNew( GenerateMachineID, state: p ));
+                _ = generationTable.GetValue( machineInfoProvider, p => Task.Factory.StartNew( GenerateMachineID, state: p ) );
             }
         }
 
-        public static byte[]? GetMachineID(IMachineInfoProvider machineInfoProvider)
+        public static byte[]? GetMachineID( IMachineInfoProvider machineInfoProvider )
         {
-            if (!generationTable.TryGetValue(machineInfoProvider, out var generateTask))
+            if ( !generationTable.TryGetValue( machineInfoProvider, out var generateTask ) )
             {
                 DebugLog.WriteLine( nameof( HardwareUtils ), "GetMachineID() called before Init()" );
                 return null;
             }
 
-            DebugLog.Assert(generateTask != null, nameof( HardwareUtils ), "GetMachineID() found null task - should be impossible.");
+            DebugLog.Assert( generateTask != null, nameof( HardwareUtils ), "GetMachineID() found null task - should be impossible." );
 
             try
             {
@@ -398,10 +413,10 @@ namespace SteamKit2
                     return null;
                 }
             }
-            catch (AggregateException ex) when (ex.InnerException != null && generateTask.IsFaulted)
+            catch ( AggregateException ex ) when ( ex.InnerException != null && generateTask.IsFaulted )
             {
                 // Rethrow the original exception rather than a wrapped AggregateException.
-                ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
+                ExceptionDispatchInfo.Capture( ex.InnerException ).Throw();
             }
 
             MachineID machineId = generateTask.Result;
@@ -412,13 +427,13 @@ namespace SteamKit2
         }
 
 
-        static MachineID GenerateMachineID(object? state)
+        static MachineID GenerateMachineID( object? state )
         {
             // the aug 25th 2015 CM update made well-formed machine MessageObjects required for logon
             // this was flipped off shortly after the update rolled out, likely due to linux steamclients running on distros without a way to build a machineid
             // so while a valid MO isn't currently (as of aug 25th) required, they could be in the future and we'll abide by The Valve Law now
 
-            var provider = (IMachineInfoProvider)state!;
+            var provider = ( IMachineInfoProvider )state!;
 
             var machineId = new MachineID();
 
