@@ -3,6 +3,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using Windows.Win32.Storage.FileSystem;
+using Windows.Win32.System.Ioctl;
+using static Windows.Win32.PInvoke;
 
 namespace SteamKit2.Util
 {
